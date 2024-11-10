@@ -1,12 +1,12 @@
 #include <SFML/Graphics.hpp>
 #include <string>
+#include "PlayScreen.h"
+#include "EndScreen.h"
 
-void showPlayScreen(sf::RenderWindow& window); 
-
-void showEndScreen(sf::RenderWindow& window) {
+void EndScreen::show(sf::RenderWindow& window) {
     sf::Font font;
     if (!font.loadFromFile("ARIAL.TTF")) {
-        return; 
+        return;
     }
 
     sf::Text gameOverText("Game Over", font, 50);
@@ -28,7 +28,8 @@ void showEndScreen(sf::RenderWindow& window) {
             if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                 if (retryText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                    showPlayScreen(window);  
+                    PlayScreen playScreen;
+                    playScreen.show(window);
                     return;
                 }
                 if (exitText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
