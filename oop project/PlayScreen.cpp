@@ -6,6 +6,7 @@
 #include "Tetromino.h"
 #include "I.h"
 #include "O.h"
+#include "T.h"
 
 void PlayScreen::show(sf::RenderWindow& window) {
     sf::RectangleShape rect(sf::Vector2f(180.f, 230.f));
