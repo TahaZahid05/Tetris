@@ -11,6 +11,7 @@ class I : public Tetromino {
         sf::RectangleShape* frontRectXLeft;
         sf::RectangleShape* frontRectY;
         sf::RectangleShape* center;
+        int rotationState;
     public:
         I();
         void move(sf::Vector2f velocity);

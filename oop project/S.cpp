@@ -10,6 +10,9 @@ S::S() : rotationState(0) {
     blocks[2].setPosition(550, 65);
     blocks[3].setPosition(605, 65);
     center = &blocks[1];
+    frontRectXRight = &blocks[1];
+    frontRectXLeft = &blocks[2];
+    frontRectY = &blocks[2];
 }
 
 void S::move(sf::Vector2f velocity) {
@@ -25,21 +28,93 @@ void S::draw(sf::RenderWindow& window) {
 }
 
 void S::rotate() {
-    if (rotationState == 0) {
-        blocks[0].setPosition(center->getPosition().x - 55, center->getPosition().y);
-        blocks[2].setPosition(center->getPosition().x, center->getPosition().y + 55);
-        blocks[3].setPosition(center->getPosition().x + 55, center->getPosition().y + 55);
-        rotationState = 1;
-    } else {
-        blocks[0].setPosition(center->getPosition().x, center->getPosition().y - 55);
-        blocks[2].setPosition(center->getPosition().x - 55, center->getPosition().y);
-        blocks[3].setPosition(center->getPosition().x - 55, center->getPosition().y + 55);
-        rotationState = 0;
+    sf::Vector2f newPos0, newPos2, newPos3;
+    switch(rotationState){
+        case 0:
+            newPos0 = sf::Vector2f(center->getPosition().x - 55, center->getPosition().y);
+            newPos2 = sf::Vector2f(center->getPosition().x, center->getPosition().y + 55);
+            newPos3 = sf::Vector2f(center->getPosition().x - 55, center->getPosition().y - 55);
+            if (newPos0.x >= 550 && newPos0.x <= 880 && newPos0.y >= 10 && newPos0.y <= 780 &&
+                newPos2.x >= 550 && newPos2.x <= 880 && newPos2.y >= 10 && newPos2.y <= 780 &&
+                newPos3.x >= 550 && newPos3.x <= 880 && newPos3.y >= 10 && newPos3.y <= 780) {
+                blocks[0].setPosition(newPos0);
+                blocks[2].setPosition(newPos2);
+                blocks[3].setPosition(newPos3);
+                rotationState = 1;
+                frontRectY = &blocks[2];
+                frontRectXRight = &blocks[2];
+                frontRectXLeft = &blocks[3];
+            }
+            break;
+        case 1:
+            newPos0 = sf::Vector2f(center->getPosition().x, center->getPosition().y - 55);
+            newPos2 = sf::Vector2f(center->getPosition().x - 55, center->getPosition().y);
+            newPos3 = sf::Vector2f(center->getPosition().x + 55, center->getPosition().y - 55);
+            if (newPos0.x >= 550 && newPos0.x <= 880 && newPos0.y >= 10 && newPos0.y <= 780 &&
+                newPos2.x >= 550 && newPos2.x <= 880 && newPos2.y >= 10 && newPos2.y <= 780 &&
+                newPos3.x >= 550 && newPos3.x <= 880 && newPos3.y >= 10 && newPos3.y <= 780) {
+                blocks[0].setPosition(newPos0);
+                blocks[2].setPosition(newPos2);
+                blocks[3].setPosition(newPos3);
+                rotationState = 2;
+                frontRectY = &blocks[1];
+                frontRectXRight = &blocks[3];
+                frontRectXLeft = &blocks[2];
+            }
+            break;
+        case 2:
+            newPos0 = sf::Vector2f(center->getPosition().x + 55, center->getPosition().y);
+            newPos2 = sf::Vector2f(center->getPosition().x, center->getPosition().y - 55);
+            newPos3 = sf::Vector2f(center->getPosition().x + 55, center->getPosition().y + 55);
+            if (newPos0.x >= 550 && newPos0.x <= 880 && newPos0.y >= 10 && newPos0.y <= 780 &&
+                newPos2.x >= 550 && newPos2.x <= 880 && newPos2.y >= 10 && newPos2.y <= 780 &&
+                newPos3.x >= 550 && newPos3.x <= 880 && newPos3.y >= 10 && newPos3.y <= 780) {
+                blocks[0].setPosition(newPos0);
+                blocks[2].setPosition(newPos2);
+                blocks[3].setPosition(newPos3);
+                rotationState = 3;
+                frontRectY = &blocks[3];
+                frontRectXRight = &blocks[3];
+                frontRectXLeft = &blocks[1];
+            }
+            break;
+        case 3:
+            newPos0 = sf::Vector2f(center->getPosition().x, center->getPosition().y + 55);
+            newPos2 = sf::Vector2f(center->getPosition().x + 55, center->getPosition().y);
+            newPos3 = sf::Vector2f(center->getPosition().x - 55, center->getPosition().y + 55);
+            if (newPos0.x >= 550 && newPos0.x <= 880 && newPos0.y >= 10 && newPos0.y <= 780 &&
+                newPos2.x >= 550 && newPos2.x <= 880 && newPos2.y >= 10 && newPos2.y <= 780 &&
+                newPos3.x >= 550 && newPos3.x <= 880 && newPos3.y >= 10 && newPos3.y <= 780) {
+                blocks[0].setPosition(newPos0);
+                blocks[2].setPosition(newPos2);
+                blocks[3].setPosition(newPos3);
+                rotationState = 0;
+                frontRectY = &blocks[0];
+                frontRectXRight = &blocks[2];
+                frontRectXLeft = &blocks[3];
+            }
+            break;
     }
 }
 
 sf::RectangleShape* S::getBlocks() {
     return blocks;
+}
+
+sf::RectangleShape* S::getCenter() {
+    return center;
+}
+
+sf::RectangleShape* S::getFrontRectXRight() {
+    return &blocks[3];
+}
+
+sf::RectangleShape* S::getFrontRectXLeft() {
+    return &blocks[0];
+}
+
+sf::RectangleShape* S::getFrontRectY() {
+    return &blocks[3];
 }
 
 bool S::isColliding(const std::vector<sf::RectangleShape>& settledShapes) {

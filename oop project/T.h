@@ -10,6 +10,7 @@ private:
     sf::RectangleShape* frontRectXLeft;
     sf::RectangleShape* frontRectY;
     sf::RectangleShape* center;
+    int rotationState;
 public:
     T();
     void move(sf::Vector2f velocity);
