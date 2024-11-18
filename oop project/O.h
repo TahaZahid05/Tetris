@@ -1,4 +1,3 @@
-
 #ifndef O_H
 #define O_H
 
@@ -22,6 +21,7 @@ class O : public Tetromino {
         sf::RectangleShape* getFrontRectY();
         sf::RectangleShape* getCenter();
         bool isColliding(const std::vector<sf::RectangleShape>& settledShapes);
+        Tetromino* clone() const override;
 };
 
 #endif

@@ -1,4 +1,3 @@
-
 #ifndef TETROMINO_H
 #define TETROMINO_H
 
@@ -15,6 +14,7 @@ public:
     virtual sf::RectangleShape* getFrontRectY() = 0;
     virtual sf::RectangleShape* getCenter() = 0;
     virtual bool isColliding(const std::vector<sf::RectangleShape>& settledShapes) = 0;
+    virtual Tetromino* clone() const = 0;
 };
 
 #endif // TETROMINO_H

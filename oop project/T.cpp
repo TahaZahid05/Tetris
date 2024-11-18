@@ -126,3 +126,7 @@ bool T::isColliding(const std::vector<sf::RectangleShape>& settledShapes) {
     }
     return false;
 }
+
+Tetromino* T::clone() const {
+    return new T(*this);
+}

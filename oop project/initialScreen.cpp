@@ -2,6 +2,7 @@
 #include <string>
 #include "PlayScreen.h"
 #include "InitialScreen.h"
+#include "HowToPlayScreen.h"
 
 void InitialScreen::show(sf::RenderWindow& window) {
     sf::Font font;
@@ -29,6 +30,9 @@ void InitialScreen::show(sf::RenderWindow& window) {
     sf::Text exitText("Exit", font, 30);
     exitText.setPosition(750, 400);
 
+    sf::Text howToPlayText("How to play", font, 30);
+    howToPlayText.setPosition(750, 500);
+
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -45,6 +49,11 @@ void InitialScreen::show(sf::RenderWindow& window) {
                 if (exitText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
                     window.close();
                 }
+                if (howToPlayText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                    HowToPlayScreen howToPlayScreen;
+                    howToPlayScreen.show(window);   
+                    return;
+                }
             }
         }
 
@@ -53,6 +62,7 @@ void InitialScreen::show(sf::RenderWindow& window) {
         window.draw(title);
         window.draw(playText);
         window.draw(exitText);
+        window.draw(howToPlayText);
         window.display();
     }
 }

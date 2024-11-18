@@ -1,4 +1,3 @@
-
 #include "I.h"
 
 I::I(): rotationState(0) {
@@ -114,4 +113,8 @@ bool I::isColliding(const std::vector<sf::RectangleShape>& settledShapes){
         }
     }
     return false;
+}
+
+Tetromino* I::clone() const {
+    return new I(*this);
 }

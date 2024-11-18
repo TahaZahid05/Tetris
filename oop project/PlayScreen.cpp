@@ -139,6 +139,7 @@ void PlayScreen::show(sf::RenderWindow& window) {
 
     Tetromino* currentShape = &shapeJ;
     Tetromino* nextShape = &shapeO;
+    Tetromino* nextShapePrint = nextShape->clone();
 
     std::vector<sf::RectangleShape> settledShapes;
     sf::Vector2f velocity(0.0f, 0.05f);
@@ -159,207 +160,233 @@ void PlayScreen::show(sf::RenderWindow& window) {
         velocity.y = 0.55f;
     }
 
+    bool isPaused = false;
+    sf::RectangleShape pauseButton(sf::Vector2f(100.f, 50.f));
+    pauseButton.setPosition(40, 750);
+    pauseButton.setFillColor(sf::Color::Red);
+
+    sf::Text pauseButtonText("Pause", font, 20);
+    pauseButtonText.setPosition(60, 760);
+    pauseButtonText.setFillColor(sf::Color::White);
+
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
 
-            if(event.type == sf::Event::KeyPressed){
-                if(event.key.code == sf::Keyboard::Up){
-                    if(currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes)))
-                        currentShape->rotate();
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (pauseButton.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
+                    isPaused = !isPaused;
+                    pauseButtonText.setString(isPaused ? "Resume" : "Pause");
                 }
-                else if(event.key.code == sf::Keyboard::Right){
-                    if(currentShape->getFrontRectXRight()->getPosition().x < 880 && currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes))){
-                        currentShape->move(sf::Vector2f(55.f, 0.f));
+            }
+
+            if (!isPaused) {
+                if(event.type == sf::Event::KeyPressed){
+                    if(event.key.code == sf::Keyboard::Up){
+                        if(currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes)))
+                            currentShape->rotate();
                     }
-                }
-                else if(event.key.code == sf::Keyboard::Left){
-                    if(currentShape->getFrontRectXLeft()->getPosition().x > 550 && currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes))){
-                        currentShape->move(sf::Vector2f(-55.f, 0.f));
+                    else if(event.key.code == sf::Keyboard::Right){
+                        if(currentShape->getFrontRectXRight()->getPosition().x < 880 && currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes))){
+                            currentShape->move(sf::Vector2f(55.f, 0.f));
+                        }
+                    }
+                    else if(event.key.code == sf::Keyboard::Left){
+                        if(currentShape->getFrontRectXLeft()->getPosition().x > 550 && currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes))){
+                            currentShape->move(sf::Vector2f(-55.f, 0.f));
+                        }
                     }
                 }
             }
         }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
-            score += 1;
-            if(currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes)))
-                velocity.y += 0.15f;
-            else{
-                if(currentShape->isColliding(settledShapes) && currentShape->getFrontRectY()->getPosition().y <= 10){
-                    velocity.y = 0;
-                    velocity.x = 0;
-                    sf::Clock clock;
-                    sf::Text linesScore(std::to_string(lines), font, 30);
-                    linesScore.setPosition(109 + (21/(std::to_string(lines)).length()), 170);
-                    linesScore.setFillColor(sf::Color::White);
 
-                    sf::Text levelScore(std::to_string(level), font, 30);
-                    levelScore.setPosition(109 + (21/(std::to_string(level)).length()), 80);
-                    levelScore.setFillColor(sf::Color::White);
-
-                    sf::Text scoreScore(std::to_string(score), font, 30);
-                    scoreScore.setPosition(109 + (21/(std::to_string(score)).length()), 260);
-                    scoreScore.setFillColor(sf::Color::White);
-                    while (clock.getElapsedTime().asSeconds() < 2.0f) {
-                        // Display the current state to the user
-                        window.clear(sf::Color::White);
-                        window.draw(rectBorder);
-                        window.draw(rect);
-                        window.draw(levelText);
-                        window.draw(levelRect);
-                        window.draw(levelScore);
-                        window.draw(linesText);
-                        window.draw(linesRect);
-                        window.draw(linesScore);
-                        window.draw(scoreText);
-                        window.draw(scoreRect);
-                        window.draw(scoreScore);
-                        for (int i = 0; i < numberfOfRows; i++) {
-                            for (int j = 0; j < numberOfColumns; j++) {
-                                window.draw(tetrisRectangles[i][j]);
-                            }
-                        }
-                        for (const auto& shape : settledShapes) {
-                            window.draw(shape);
-                        }
-                        currentShape->draw(window);
-                        window.draw(rectNextBorder);
-                        window.draw(rectNext);
-                        window.draw(rectNextText);
-                        window.draw(rectShapesText);
-                        window.display();
-                    }
-                    EndScreen endScreen;
-                    endScreen.show(window);
-                }
+        if (!isPaused) {
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+                score += 1;
+                if(currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes)))
+                    velocity.y += 0.15f;
                 else{
-                    velocity.y = 0;
-                    velocity.x = 0;
-                    int subtractFactor = (int)(currentShape->getFrontRectY()->getPosition().y - 10) % 55;
-                    for (int i = 0; i < 4; i++) {
-                        currentShape->getBlocks()[i].setPosition(currentShape->getBlocks()[i].getPosition().x, currentShape->getBlocks()[i].getPosition().y - subtractFactor);
-                    }
-                    for(int i = 0; i < 4; i++){
-                        settledShapes.push_back(currentShape->getBlocks()[i]);
-                    }
-                    removeFilledRows(settledShapes); // Check and remove filled rows
-                    // std::cout << "down pressed" << std::endl;
-                    currentShape = nextShape;
-                    int randomNum = rand() % 7;
-                    if(randomNum == 0){
-                        nextShape = new I();
-                    }
-                    else if(randomNum == 1){
-                        nextShape = new O();
-                    }
-                    else if(randomNum == 2){
-                        nextShape = new T();
-                    }
-                    else if(randomNum == 3){
-                        nextShape = new J();
-                    }
-                    else if(randomNum == 4){
-                        nextShape = new L();
-                    }
-                    else if(randomNum == 5){
-                        nextShape = new S();
+                    if(currentShape->isColliding(settledShapes) && currentShape->getFrontRectY()->getPosition().y <= 10){
+                        velocity.y = 0;
+                        velocity.x = 0;
+                        sf::Clock clock;
+                        sf::Text linesScore(std::to_string(lines), font, 30);
+                        linesScore.setPosition(109 + (21/(std::to_string(lines)).length()), 170);
+                        linesScore.setFillColor(sf::Color::White);
+
+                        sf::Text levelScore(std::to_string(level), font, 30);
+                        levelScore.setPosition(109 + (21/(std::to_string(level)).length()), 80);
+                        levelScore.setFillColor(sf::Color::White);
+
+                        sf::Text scoreScore(std::to_string(score), font, 30);
+                        scoreScore.setPosition(109 + (21/(std::to_string(score)).length()), 260);
+                        scoreScore.setFillColor(sf::Color::White);
+                        while (clock.getElapsedTime().asSeconds() < 2.0f) {
+                            // Display the current state to the user
+                            window.clear(sf::Color::White);
+                            window.draw(rectBorder);
+                            window.draw(rect);
+                            window.draw(levelText);
+                            window.draw(levelRect);
+                            window.draw(levelScore);
+                            window.draw(linesText);
+                            window.draw(linesRect);
+                            window.draw(linesScore);
+                            window.draw(scoreText);
+                            window.draw(scoreRect);
+                            window.draw(scoreScore);
+                            for (int i = 0; i < numberfOfRows; i++) {
+                                for (int j = 0; j < numberOfColumns; j++) {
+                                    window.draw(tetrisRectangles[i][j]);
+                                }
+                            }
+                            for (const auto& shape : settledShapes) {
+                                window.draw(shape);
+                            }
+                            currentShape->draw(window);
+                            window.draw(rectNextBorder);
+                            window.draw(rectNext);
+                            window.draw(rectNextText);
+                            window.draw(rectShapesText);
+                            window.display();
+                        }
+                        EndScreen endScreen;
+                        endScreen.show(window);
                     }
                     else{
-                        nextShape = new Z();
+                        velocity.y = 0;
+                        velocity.x = 0;
+                        int subtractFactor = (int)(currentShape->getFrontRectY()->getPosition().y - 10) % 55;
+                        for (int i = 0; i < 4; i++) {
+                            currentShape->getBlocks()[i].setPosition(currentShape->getBlocks()[i].getPosition().x, currentShape->getBlocks()[i].getPosition().y - subtractFactor);
+                        }
+                        for(int i = 0; i < 4; i++){
+                            settledShapes.push_back(currentShape->getBlocks()[i]);
+                        }
+                        removeFilledRows(settledShapes); // Check and remove filled rows
+                        // std::cout << "down pressed" << std::endl;
+                        currentShape = nextShape;
+                        int randomNum = rand() % 7;
+                        if(randomNum == 0){
+                            nextShape = new I();
+                        }
+                        else if(randomNum == 1){
+                            nextShape = new O();
+                        }
+                        else if(randomNum == 2){
+                            nextShape = new T();
+                        }
+                        else if(randomNum == 3){
+                            nextShape = new J();
+                        }
+                        else if(randomNum == 4){
+                            nextShape = new L();
+                        }
+                        else if(randomNum == 5){
+                            nextShape = new S();
+                        }
+                        else{
+                            nextShape = new Z();
+                        }
+                        delete nextShapePrint;
+                        nextShapePrint = nextShape->clone();
                     }
                 }
             }
-        }
-        else{
-            if(currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes)))
-                velocity.y = 0.15f;
             else{
-                if(currentShape->isColliding(settledShapes) && currentShape->getFrontRectY()->getPosition().y <= 10){
-                    velocity.y = 0;
-                    velocity.x = 0;
-                    sf::Clock clock;
-                    sf::Text linesScore(std::to_string(lines), font, 30);
-                    linesScore.setPosition(109 + (21/(std::to_string(lines)).length()), 170);
-                    linesScore.setFillColor(sf::Color::White);
-
-                    sf::Text levelScore(std::to_string(level), font, 30);
-                    levelScore.setPosition(109 + (21/(std::to_string(level)).length()), 80);
-                    levelScore.setFillColor(sf::Color::White);
-
-                    sf::Text scoreScore(std::to_string(score), font, 30);
-                    scoreScore.setPosition(109 + (21/(std::to_string(score)).length()), 260);
-                    scoreScore.setFillColor(sf::Color::White);
-                    while (clock.getElapsedTime().asSeconds() < 2.0f) {
-                        // Display the current state to the user
-                        window.clear(sf::Color::White);
-                        window.draw(rectBorder);
-                        window.draw(rect);
-                        window.draw(levelText);
-                        window.draw(levelRect);
-                        window.draw(levelScore);
-                        window.draw(linesText);
-                        window.draw(linesRect);
-                        window.draw(linesScore);
-                        window.draw(scoreText);
-                        window.draw(scoreRect);
-                        window.draw(scoreScore);
-                        for (int i = 0; i < numberfOfRows; i++) {
-                            for (int j = 0; j < numberOfColumns; j++) {
-                                window.draw(tetrisRectangles[i][j]);
-                            }
-                        }
-                        for (const auto& shape : settledShapes) {
-                            window.draw(shape);
-                        }
-                        currentShape->draw(window);
-                        window.draw(rectNextBorder);
-                        window.draw(rectNext);
-                        window.draw(rectNextText);
-                        window.draw(rectShapesText);
-                        window.display();
-                    }
-                    EndScreen endScreen;
-                    endScreen.show(window);
-                }
+                if(currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes)))
+                    velocity.y = 0.15f;
                 else{
-                    velocity.y = 0;
-                    velocity.x = 0;
-                    int subtractFactor = (int)(currentShape->getFrontRectY()->getPosition().y - 10) % 55;
-                    for (int i = 0; i < 4; i++) {
-                        currentShape->getBlocks()[i].setPosition(currentShape->getBlocks()[i].getPosition().x, currentShape->getBlocks()[i].getPosition().y - subtractFactor);
-                    }
-                    for(int i = 0; i < 4; i++){
-                        settledShapes.push_back(currentShape->getBlocks()[i]);
-                    }
-                    removeFilledRows(settledShapes); // Check and remove filled rows
-                    // std::cout << "down pressed" << std::endl;
-                    currentShape = nextShape;
-                    int randomNum = rand() % 7;
-                    if(randomNum == 0){
-                        nextShape = new I();
-                    }
-                    else if(randomNum == 1){
-                        nextShape = new O();
-                    }
-                    else if(randomNum == 2){
-                        nextShape = new T();
-                    }
-                    else if(randomNum == 3){
-                        nextShape = new J();
-                    }
-                    else if(randomNum == 4){
-                        nextShape = new L();
-                    }
-                    else if(randomNum == 5){
-                        nextShape = new S();
+                    if(currentShape->isColliding(settledShapes) && currentShape->getFrontRectY()->getPosition().y <= 10){
+                        velocity.y = 0;
+                        velocity.x = 0;
+                        sf::Clock clock;
+                        sf::Text linesScore(std::to_string(lines), font, 30);
+                        linesScore.setPosition(109 + (21/(std::to_string(lines)).length()), 170);
+                        linesScore.setFillColor(sf::Color::White);
+
+                        sf::Text levelScore(std::to_string(level), font, 30);
+                        levelScore.setPosition(109 + (21/(std::to_string(level)).length()), 80);
+                        levelScore.setFillColor(sf::Color::White);
+
+                        sf::Text scoreScore(std::to_string(score), font, 30);
+                        scoreScore.setPosition(109 + (21/(std::to_string(score)).length()), 260);
+                        scoreScore.setFillColor(sf::Color::White);
+                        while (clock.getElapsedTime().asSeconds() < 2.0f) {
+                            // Display the current state to the user
+                            window.clear(sf::Color::White);
+                            window.draw(rectBorder);
+                            window.draw(rect);
+                            window.draw(levelText);
+                            window.draw(levelRect);
+                            window.draw(levelScore);
+                            window.draw(linesText);
+                            window.draw(linesRect);
+                            window.draw(linesScore);
+                            window.draw(scoreText);
+                            window.draw(scoreRect);
+                            window.draw(scoreScore);
+                            for (int i = 0; i < numberfOfRows; i++) {
+                                for (int j = 0; j < numberOfColumns; j++) {
+                                    window.draw(tetrisRectangles[i][j]);
+                                }
+                            }
+                            for (const auto& shape : settledShapes) {
+                                window.draw(shape);
+                            }
+                            currentShape->draw(window);
+                            window.draw(rectNextBorder);
+                            window.draw(rectNext);
+                            window.draw(rectNextText);
+                            window.draw(rectShapesText);
+                            window.display();
+                        }
+                        EndScreen endScreen;
+                        endScreen.show(window);
                     }
                     else{
-                        nextShape = new Z();
+                        velocity.y = 0;
+                        velocity.x = 0;
+                        int subtractFactor = (int)(currentShape->getFrontRectY()->getPosition().y - 10) % 55;
+                        for (int i = 0; i < 4; i++) {
+                            currentShape->getBlocks()[i].setPosition(currentShape->getBlocks()[i].getPosition().x, currentShape->getBlocks()[i].getPosition().y - subtractFactor);
+                        }
+                        for(int i = 0; i < 4; i++){
+                            settledShapes.push_back(currentShape->getBlocks()[i]);
+                        }
+                        removeFilledRows(settledShapes); // Check and remove filled rows
+                        // std::cout << "down pressed" << std::endl;
+                        currentShape = nextShape;
+                        int randomNum = rand() % 7;
+                        if(randomNum == 0){
+                            nextShape = new I();
+                        }
+                        else if(randomNum == 1){
+                            nextShape = new O();
+                        }
+                        else if(randomNum == 2){
+                            nextShape = new T();
+                        }
+                        else if(randomNum == 3){
+                            nextShape = new J();
+                        }
+                        else if(randomNum == 4){
+                            nextShape = new L();
+                        }
+                        else if(randomNum == 5){
+                            nextShape = new S();
+                        }
+                        else{
+                            nextShape = new Z();
+                        }
+                        nextShapePrint = nextShape->clone();
                     }
                 }
             }
+
+            currentShape->move(velocity);
         }
 
         sf::Text linesScore(std::to_string(lines), font, 30);
@@ -374,7 +401,6 @@ void PlayScreen::show(sf::RenderWindow& window) {
         scoreScore.setPosition(109 + (21/(std::to_string(score)).length()), 260);
         scoreScore.setFillColor(sf::Color::White);
 
-        currentShape->move(velocity);
         window.clear(sf::Color::White);
         window.draw(rectBorder);
         window.draw(rect);
@@ -400,6 +426,17 @@ void PlayScreen::show(sf::RenderWindow& window) {
         window.draw(rectNext);
         window.draw(rectNextText);
         window.draw(rectShapesText);
+        nextShapePrint->getBlocks()[0].setPosition(nextShape->getBlocks()[0].getPosition().x + 750, nextShape->getBlocks()[0].getPosition().y + 150);
+        nextShapePrint->getBlocks()[1].setPosition(nextShape->getBlocks()[1].getPosition().x + 750, nextShape->getBlocks()[1].getPosition().y + 150);
+        nextShapePrint->getBlocks()[2].setPosition(nextShape->getBlocks()[2].getPosition().x + 750, nextShape->getBlocks()[2].getPosition().y + 150);
+        nextShapePrint->getBlocks()[3].setPosition(nextShape->getBlocks()[3].getPosition().x + 750, nextShape->getBlocks()[3].getPosition().y + 150);
+        nextShapePrint->draw(window); // Draw the next shape in the "NEXT SHAPE" rectangle
+
+        window.draw(pauseButton);
+        window.draw(pauseButtonText);
+
         window.display();
     }
+
+    delete nextShapePrint;
 }

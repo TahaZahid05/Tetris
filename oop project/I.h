@@ -1,4 +1,3 @@
-
 #ifndef I_H
 #define I_H
 
@@ -23,6 +22,7 @@ class I : public Tetromino {
         sf::RectangleShape* getFrontRectY();
         sf::RectangleShape* getCenter();
         bool isColliding(const std::vector<sf::RectangleShape>& settledShapes);
+        Tetromino* clone() const override;
 };
 
 #endif

@@ -127,3 +127,7 @@ sf::RectangleShape* L::getFrontRectY(){
 sf::RectangleShape* L::getCenter(){
     return center;
 }
+
+Tetromino* L::clone() const {
+    return new L(*this);
+}

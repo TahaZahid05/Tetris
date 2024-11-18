@@ -1,4 +1,3 @@
-
 #include "O.h"
 
 O::O() {
@@ -60,4 +59,8 @@ bool O::isColliding(const std::vector<sf::RectangleShape>& settledShapes){
         }
     }
     return false;
+}
+
+Tetromino* O::clone() const {
+    return new O(*this);
 }

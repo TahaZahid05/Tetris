@@ -22,6 +22,7 @@ public:
     sf::RectangleShape* getFrontRectXLeft();
     sf::RectangleShape* getFrontRectY();
     bool isColliding(const std::vector<sf::RectangleShape>& settledShapes);
+    Tetromino* clone() const override;
 };
 
 #endif

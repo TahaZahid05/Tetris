@@ -126,3 +126,7 @@ sf::RectangleShape* Z::getFrontRectXLeft() {
 sf::RectangleShape* Z::getFrontRectY() {
     return &blocks[3];
 }
+
+Tetromino* Z::clone() const {
+    return new Z(*this);
+}
