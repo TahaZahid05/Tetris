@@ -1,17 +1,5 @@
 #include "L.h"
 
-void L::move(sf::Vector2f velocity) {
-    for (int i = 0; i < 4; i++) {
-        blocks[i].move(velocity);
-    }
-}
-
-void L::draw(sf::RenderWindow& window) {
-    for (int i = 0; i < 4; i++) {
-        window.draw(blocks[i]);
-    }
-}
-
 L::L() : rotationState(0) {
     for (int i = 0; i < 4; i++) {
         blocks[i].setSize(sf::Vector2f(50.f, 50.f));
@@ -94,38 +82,6 @@ void L::rotate() {
         }
         break;
     }
-}
-
-
-
-sf::RectangleShape* L::getBlocks() {
-    return blocks;
-}
-
-bool L::isColliding(const std::vector<sf::RectangleShape>& settledShapes) {
-    for (int i = 0; i < 4; i++) {
-        for (const auto& shape : settledShapes) {
-            if (blocks[i].getGlobalBounds().intersects(shape.getGlobalBounds()))
-                return true;
-        }
-    }
-    return false;
-}
-
-sf::RectangleShape* L::getFrontRectXRight(){
-    return frontRectXRight;
-}
-
-sf::RectangleShape* L::getFrontRectXLeft(){
-    return frontRectXLeft;
-}
-
-sf::RectangleShape* L::getFrontRectY(){
-    return frontRectY;
-}
-
-sf::RectangleShape* L::getCenter(){
-    return center;
 }
 
 Tetromino* L::clone() const {

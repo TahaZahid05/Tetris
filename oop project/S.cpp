@@ -15,18 +15,6 @@ S::S() : rotationState(0) {
     frontRectY = &blocks[2];
 }
 
-void S::move(sf::Vector2f velocity) {
-    for (int i = 0; i < 4; i++) {
-        blocks[i].move(velocity);
-    }
-}
-
-void S::draw(sf::RenderWindow& window) {
-    for (int i = 0; i < 4; i++) {
-        window.draw(blocks[i]);
-    }
-}
-
 void S::rotate() {
     sf::Vector2f newPos0, newPos2, newPos3;
     switch(rotationState){
@@ -95,36 +83,6 @@ void S::rotate() {
             }
             break;
     }
-}
-
-sf::RectangleShape* S::getBlocks() {
-    return blocks;
-}
-
-sf::RectangleShape* S::getCenter() {
-    return center;
-}
-
-sf::RectangleShape* S::getFrontRectXRight() {
-    return frontRectXRight;
-}
-
-sf::RectangleShape* S::getFrontRectXLeft() {
-    return frontRectXLeft;
-}
-
-sf::RectangleShape* S::getFrontRectY() {
-    return frontRectY;
-}
-
-bool S::isColliding(const std::vector<sf::RectangleShape>& settledShapes) {
-    for (int i = 0; i < 4; i++) {
-        for (const auto& shape : settledShapes) {
-            if (blocks[i].getGlobalBounds().intersects(shape.getGlobalBounds()))
-                return true;
-        }
-    }
-    return false;
 }
 
 Tetromino* S::clone() const {

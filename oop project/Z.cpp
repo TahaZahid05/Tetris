@@ -15,18 +15,6 @@ Z::Z() : rotationState(0) {
     frontRectY = &blocks[3];
 }
 
-void Z::move(sf::Vector2f velocity) {
-    for (int i = 0; i < 4; i++) {
-        blocks[i].move(velocity);
-    }
-}
-
-void Z::draw(sf::RenderWindow& window) {
-    for (int i = 0; i < 4; i++) {
-        window.draw(blocks[i]);
-    }
-}
-
 void Z::rotate() {
     sf::Vector2f newPos0, newPos1, newPos3;
     switch(rotationState) {
@@ -95,36 +83,6 @@ void Z::rotate() {
             }
             break;
     }
-}
-
-sf::RectangleShape* Z::getBlocks() {
-    return blocks;
-}
-
-sf::RectangleShape* Z::getCenter(){
-    return center;
-}
-
-bool Z::isColliding(const std::vector<sf::RectangleShape>& settledShapes) {
-    for (int i = 0; i < 4; i++) {
-        for (const auto& shape : settledShapes) {
-            if (blocks[i].getGlobalBounds().intersects(shape.getGlobalBounds()))
-                return true;
-        }
-    }
-    return false;
-}
-
-sf::RectangleShape* Z::getFrontRectXRight() {
-    return frontRectXRight;
-}
-
-sf::RectangleShape* Z::getFrontRectXLeft() {
-    return frontRectXLeft;
-}
-
-sf::RectangleShape* Z::getFrontRectY() {
-    return frontRectY;
 }
 
 Tetromino* Z::clone() const {

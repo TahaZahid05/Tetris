@@ -15,50 +15,8 @@ O::O() {
     center = &blocks[1];
 }
 
-void O::move(sf::Vector2f velocity) {
-    for (int i = 0; i < 4; i++) {
-        blocks[i].move(velocity);
-    }
-}
-
-void O::draw(sf::RenderWindow& window) {
-    for (int i = 0; i < 4; i++) {
-        window.draw(blocks[i]);
-    }
-}
-
 void O::rotate() {
     // O shape does not need rotation
-}
-
-sf::RectangleShape* O::getBlocks() {
-    return blocks;
-}
-
-sf::RectangleShape* O::getFrontRectXRight() {
-    return frontRectXRight;
-}
-
-sf::RectangleShape* O::getFrontRectXLeft() {
-    return frontRectXLeft;
-}
-
-sf::RectangleShape* O::getFrontRectY() {
-    return frontRectY;
-}
-
-sf::RectangleShape* O::getCenter() {
-    return center;
-}
-
-bool O::isColliding(const std::vector<sf::RectangleShape>& settledShapes){
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < settledShapes.size(); j++) {
-            if(blocks[i].getGlobalBounds().intersects(settledShapes[j].getGlobalBounds()))
-                return true;
-        }
-    }
-    return false;
 }
 
 Tetromino* O::clone() const {

@@ -2,19 +2,27 @@
 #define TETROMINO_H
 
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 class Tetromino {
 public:
-    virtual void move(sf::Vector2f velocity) = 0;
-    virtual void draw(sf::RenderWindow& window) = 0;
+    virtual void move(sf::Vector2f velocity);
+    virtual void draw(sf::RenderWindow& window);
     virtual void rotate() = 0;
-    virtual sf::RectangleShape* getBlocks() = 0;
-    virtual sf::RectangleShape* getFrontRectXRight() = 0;
-    virtual sf::RectangleShape* getFrontRectXLeft() = 0;
-    virtual sf::RectangleShape* getFrontRectY() = 0;
-    virtual sf::RectangleShape* getCenter() = 0;
-    virtual bool isColliding(const std::vector<sf::RectangleShape>& settledShapes) = 0;
+    sf::RectangleShape* getBlocks();
+    sf::RectangleShape* getFrontRectXRight();
+    sf::RectangleShape* getFrontRectXLeft();
+    sf::RectangleShape* getFrontRectY();
+    sf::RectangleShape* getCenter();
+    bool isColliding(const std::vector<sf::RectangleShape>& settledShapes);
     virtual Tetromino* clone() const = 0;
+
+protected:
+    sf::RectangleShape blocks[4];
+    sf::RectangleShape* frontRectXRight;
+    sf::RectangleShape* frontRectXLeft;
+    sf::RectangleShape* frontRectY;
+    sf::RectangleShape* center;
 };
 
 #endif // TETROMINO_H
