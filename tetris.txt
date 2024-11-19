@@ -1,0 +1,11 @@
+tetris:
+level advances for every 10 lines cleared.
+increase game speed for each level
+after level 10, game speed only increases on level 13, 16, 19 and 29. after 29 speed doesn't increase and tetris falls too fast which causes the kill screen
+
+for any level n:
+single: 40(n+1) points
+double: 100(n+1) points
+triple: 300(n+1) points
+tetris: 1200(n+1) points
+increment score: for holding the down key as well

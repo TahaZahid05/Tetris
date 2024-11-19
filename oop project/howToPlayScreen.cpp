@@ -5,6 +5,17 @@
 // ...existing code...
 
 void HowToPlayScreen::show(sf::RenderWindow& window) {
+    sf::VertexArray gradient(sf::Quads, 4);
+    gradient[0].position = sf::Vector2f(0, 0);
+    gradient[1].position = sf::Vector2f(1600, 0);
+    gradient[2].position = sf::Vector2f(1600, 900);
+    gradient[3].position = sf::Vector2f(0, 900);
+
+    gradient[0].color = sf::Color(81, 112, 255);
+    gradient[1].color = sf::Color(255, 102, 196);
+    gradient[2].color = sf::Color(255, 102, 196);
+    gradient[3].color = sf::Color(81, 112, 255);
+
     sf::Font font;
     if (!font.loadFromFile("Arial.ttf")) {
         return;
@@ -21,14 +32,14 @@ void HowToPlayScreen::show(sf::RenderWindow& window) {
         "5. Try to clear as many rows as possible to achieve a high score!\n"
     );
     text.setCharacterSize(24);
-    text.setFillColor(sf::Color::Black);
+    text.setFillColor(sf::Color::White);
     text.setPosition(50, 50);
 
     sf::Text backText;
     backText.setFont(font);
     backText.setString("Back");
     backText.setCharacterSize(24);
-    backText.setFillColor(sf::Color::Black);
+    backText.setFillColor(sf::Color::White);
     backText.setPosition(50, 800);
 
     while(window.isOpen()) {
@@ -47,7 +58,8 @@ void HowToPlayScreen::show(sf::RenderWindow& window) {
             }
         }
 
-    window.clear(sf::Color::White);
+    window.clear();
+    window.draw(gradient);
     window.draw(text);
     window.draw(backText);
     window.display();

@@ -106,15 +106,15 @@ sf::RectangleShape* S::getCenter() {
 }
 
 sf::RectangleShape* S::getFrontRectXRight() {
-    return &blocks[3];
+    return frontRectXRight;
 }
 
 sf::RectangleShape* S::getFrontRectXLeft() {
-    return &blocks[0];
+    return frontRectXLeft;
 }
 
 sf::RectangleShape* S::getFrontRectY() {
-    return &blocks[3];
+    return frontRectY;
 }
 
 bool S::isColliding(const std::vector<sf::RectangleShape>& settledShapes) {

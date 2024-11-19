@@ -6,7 +6,7 @@ Z::Z() : rotationState(0) {
         blocks[i].setFillColor(sf::Color::Red);
     }
     blocks[0].setPosition(550, 10);
-    blocks[1].setPosition(605, 10); // Center
+    blocks[1].setPosition(605, 10);
     blocks[2].setPosition(605, 65);
     blocks[3].setPosition(660, 65);
     center = &blocks[2];
@@ -116,15 +116,15 @@ bool Z::isColliding(const std::vector<sf::RectangleShape>& settledShapes) {
 }
 
 sf::RectangleShape* Z::getFrontRectXRight() {
-    return &blocks[3];
+    return frontRectXRight;
 }
 
 sf::RectangleShape* Z::getFrontRectXLeft() {
-    return &blocks[0];
+    return frontRectXLeft;
 }
 
 sf::RectangleShape* Z::getFrontRectY() {
-    return &blocks[3];
+    return frontRectY;
 }
 
 Tetromino* Z::clone() const {
