@@ -8,7 +8,7 @@ private:
     int rotationState;
 public:
     T();
-    void rotate();
+    void rotate() override;
     Tetromino* clone() const override;
 };
 

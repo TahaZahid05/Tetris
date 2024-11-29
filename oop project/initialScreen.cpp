@@ -2,7 +2,7 @@
 #include <string>
 #include "PlayScreen.h"
 #include "InitialScreen.h"
-#include "HowToPlayScreen.h"
+#include "howToPlayScreen.h"
 
 void InitialScreen::show(sf::RenderWindow& window) {
     sf::Font font;

@@ -5,7 +5,11 @@ Game::Game()
         window.setPosition(sf::Vector2i(0, 0));
         initialScreen.show(window);
 }
-
+int main(){
+    Game game;
+    game.run(); // Start the game
+    return 0;
+}
 // void Game::nextScreen(string screen){
 //     if(screen == "play"){
 //         playScreen.show(window);

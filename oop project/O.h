@@ -7,7 +7,7 @@ class O : public Tetromino {
     private:
     public:
         O();
-        void rotate();
+        void rotate() override;
         Tetromino* clone() const override;
 };
 

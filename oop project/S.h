@@ -8,7 +8,7 @@ private:
     int rotationState; // Tracks the current rotation state (0 or 1 for S)
 public:
     S();
-    void rotate() ;
+    void rotate() override; ;
     Tetromino* clone() const override;
 };
 

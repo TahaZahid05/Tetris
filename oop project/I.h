@@ -8,7 +8,7 @@ class I : public Tetromino {
         int rotationState;
     public:
         I();
-        void rotate();
+        void rotate() override;
         Tetromino* clone() const override;
 };
 
