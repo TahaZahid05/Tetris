@@ -7,7 +7,7 @@ Game::Game()
 }
 int main(){
     Game game;
-    game.run(); // Start the game
+    // game.run(); // Start the game
     return 0;
 }
 // void Game::nextScreen(string screen){

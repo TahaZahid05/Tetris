@@ -1,16 +1,17 @@
 
-#ifndef PLAYSCREEN_H
-#define PLAYSCREEN_H
+#ifndef ENTER_PLAYER_NAME_H
+#define ENTER_PLAYER_NAME_H
 
 #include <SFML/Graphics.hpp>
 #include <string>
-
-class PlayScreen {
+#include "InitialScreen.h"
+#include "PlayScreen.h"
+#include "howToPlayScreen.h"
+class PlayerInfo {
 public:
-    PlayScreen();
+    PlayerInfo();
     void show(sf::RenderWindow& window);
     std::string getPlayerName() const;
-
 private:
     std::string playerName;
     bool capturingName;
@@ -21,4 +22,4 @@ private:
     void capturePlayerName(sf::Event event);
 };
 
-#endif // PLAYSCREEN_H
+#endif // ENTER_PLAYER_NAME_H

@@ -194,7 +194,6 @@ void PlayScreen::show(sf::RenderWindow& window) {
                         }
                     }
                     else if(event.key.code == sf::Keyboard::Left){
-                        std::cout << currentShape->getFrontRectXLeft()->getPosition().x << std::endl;
                         if(currentShape->getFrontRectXLeft()->getPosition().x > 550 && currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes))){
                             currentShape->move(sf::Vector2f(-55.f, 0.f));
                         }
@@ -267,7 +266,6 @@ void PlayScreen::show(sf::RenderWindow& window) {
                             settledShapes.push_back(currentShape->getBlocks()[i]);
                         }
                         removeFilledRows(settledShapes); // Check and remove filled rows
-                        // std::cout << "down pressed" << std::endl;
                         currentShape = nextShape;
                         int randomNum = rand() % 7;
                         if(randomNum == 0){
@@ -358,7 +356,6 @@ void PlayScreen::show(sf::RenderWindow& window) {
                             settledShapes.push_back(currentShape->getBlocks()[i]);
                         }
                         removeFilledRows(settledShapes); // Check and remove filled rows
-                        // std::cout << "down pressed" << std::endl;
                         currentShape = nextShape;
                         int randomNum = rand() % 7;
                         if(randomNum == 0){

@@ -3,6 +3,7 @@
 #include "PlayScreen.h"
 #include "InitialScreen.h"
 #include "howToPlayScreen.h"
+#include "EnterPlayerName.h"
 
 void InitialScreen::show(sf::RenderWindow& window) {
     sf::Font font;
@@ -42,8 +43,10 @@ void InitialScreen::show(sf::RenderWindow& window) {
             if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                 if (playText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                    PlayScreen playScreen;
-                    playScreen.show(window);
+                    // PlayScreen playScreen;
+                    // playScreen.show(window);
+                    PlayerInfo playerInfo;
+                    playerInfo.show(window);
                     return;
                 }
                 if (exitText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {

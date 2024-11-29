@@ -2,7 +2,7 @@
 #include "EnterPlayerName.h"
 #include <iostream>
 
-PlayScreen::PlayScreen()
+PlayerInfo::PlayerInfo()
     : capturingName(true), playerName("") {
     font.loadFromFile("ARIAL.TTF");
     namePromptText.setFont(font);
@@ -15,7 +15,7 @@ PlayScreen::PlayScreen()
     nameInputText.setPosition(100, 150);
 }
 
-void PlayScreen::show(sf::RenderWindow& window) {
+void PlayerInfo::show(sf::RenderWindow& window) {
     while (window.isOpen() && capturingName) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -28,6 +28,8 @@ void PlayScreen::show(sf::RenderWindow& window) {
             }
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
                 capturingName = false;
+                PlayScreen playScreen;
+                playScreen.show(window);
             }
         }
 
@@ -38,7 +40,7 @@ void PlayScreen::show(sf::RenderWindow& window) {
     }
 }
 
-void PlayScreen::capturePlayerName(sf::Event event) {
+void PlayerInfo::capturePlayerName(sf::Event event) {
     if (event.text.unicode == '' && !playerName.empty()) {
         playerName.pop_back();
     } else if (event.text.unicode < 128) {
@@ -47,6 +49,6 @@ void PlayScreen::capturePlayerName(sf::Event event) {
     nameInputText.setString(playerName);
 }
 
-std::string PlayScreen::getPlayerName() const {
+std::string PlayerInfo::getPlayerName() const {
     return playerName;
 }
