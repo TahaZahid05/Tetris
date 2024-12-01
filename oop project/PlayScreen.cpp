@@ -7,6 +7,7 @@
 #include "PlayScreen.h"
 #include "Tetromino.h"
 #include "EnterPlayerName.h"
+#include "Game.h"
 #include "I.h"
 #include "O.h"
 #include "J.h"
@@ -17,8 +18,12 @@
 
 // using namespace std;
 
+int PlayScreen::getScore() const {
+    return score;
+}
+
 PlayScreen::PlayScreen(const std::string& playerName) 
-    : score(0), lines(0), level(0), playerName(playerName) {
+    : score(0), lines(0), level(0), playerName(playerName), currentShape(new J()), nextShape(new O()), nextShapePrint(nextShape->clone()) {
     for (int i = 0; i < numberfOfRows; i++) {
         for (int j = 0; j < numberOfColumns; j++) {
             tetrisRectangles[i][j].setSize(sf::Vector2f(50.f, 50.f));
@@ -26,6 +31,12 @@ PlayScreen::PlayScreen(const std::string& playerName)
             tetrisRectangles[i][j].setPosition(550 + j * 55, 10 + i * 55);
         }
     }
+}
+
+PlayScreen::~PlayScreen() {
+    delete currentShape;
+    delete nextShape;
+    delete nextShapePrint;
 }
 
 void PlayScreen::removeFilledRows(std::vector<sf::RectangleShape>& settledShapes) {
@@ -179,10 +190,6 @@ void PlayScreen::show(sf::RenderWindow& window) {
     Z shapeZ;
     T shapeT;
 
-    Tetromino* currentShape = &shapeJ;
-    Tetromino* nextShape = &shapeO;
-    Tetromino* nextShapePrint = nextShape->clone();
-
     std::vector<sf::RectangleShape> settledShapes;
     sf::Vector2f velocity(0.0f, 0.05f);
 
@@ -321,9 +328,10 @@ void PlayScreen::show(sf::RenderWindow& window) {
                             window.draw(rectShapesText);
                             window.display();
                         }
-                        EndScreen endScreen;
-                        endScreen.saveHighScore(playerName, score);
-                        endScreen.show(window, playerName, score);
+                        // EndScreen endScreen;
+                        // endScreen.saveHighScore(playerName, score);
+                        // endScreen.show(window, playerName, score);
+                        Game::getInstance().switchScreen("end");
                     }
                     else{
                         velocity.y = 0;
@@ -336,6 +344,7 @@ void PlayScreen::show(sf::RenderWindow& window) {
                             settledShapes.push_back(currentShape->getBlocks()[i]);
                         }
                         removeFilledRows(settledShapes); // Check and remove filled rows
+                        delete currentShape;
                         currentShape = nextShape;
                         int randomNum = rand() % 7;
                         if(randomNum == 0){
@@ -418,9 +427,10 @@ void PlayScreen::show(sf::RenderWindow& window) {
                             window.draw(rectShapesText);
                             window.display();
                         }
-                        EndScreen endScreen;
-                        endScreen.saveHighScore(playerName, score);
-                        endScreen.show(window, playerName, score);
+                        // EndScreen endScreen;
+                        // endScreen.saveHighScore(playerName, score);
+                        // endScreen.show(window, playerName, score);
+                        Game::getInstance().switchScreen("end");
                     }
                     else{
                         velocity.y = 0;
@@ -433,6 +443,7 @@ void PlayScreen::show(sf::RenderWindow& window) {
                             settledShapes.push_back(currentShape->getBlocks()[i]);
                         }
                         removeFilledRows(settledShapes); // Check and remove filled rows
+                        delete currentShape;
                         currentShape = nextShape;
                         int randomNum = rand() % 7;
                         if(randomNum == 0){
@@ -456,6 +467,7 @@ void PlayScreen::show(sf::RenderWindow& window) {
                         else{
                             nextShape = new Z();
                         }
+                        delete nextShapePrint;
                         nextShapePrint = nextShape->clone();
                     }
                 }

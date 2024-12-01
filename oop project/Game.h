@@ -7,17 +7,25 @@
 #include "howToPlayScreen.h"
 #include "PlayScreen.h"
 #include "EndScreen.h"
+#include "EnterPlayerName.h"
 #include <string>
-
-using namespace std;
 
 class Game {
 public:
-    Game();
-    // void nextScreen(string screen);
+    static Game& getInstance();
+    void run();
+    void switchScreen(const std::string& screenName);
 private:
+    Game();
+    Game(const Game&) = delete;
+    Game& operator=(const Game&) = delete;
+
     sf::RenderWindow window;
     InitialScreen initialScreen;
+    HowToPlayScreen howToPlayScreen;
+    PlayScreen* playScreen;
+    EndScreen endScreen;
+    PlayerInfo playerInfo;
 };
 
 #endif // GAME_H

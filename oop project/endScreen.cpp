@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include "Game.h"
 #include "EndScreen.h"
 #include "PlayScreen.h"
 
@@ -79,7 +80,6 @@ void EndScreen::saveHighScore(const std::string& playerName, int score) {
     if (highscoreFile.is_open()) {
         highscoreFile << playerName << "," << score << std::endl;  // Format: Name,Score
         highscoreFile.close();
-        std::cout << "High score saved!" << std::endl;
     } else {
         std::cout << "Unable to open highscore file!" << std::endl;
     }
@@ -122,8 +122,9 @@ void EndScreen::show(sf::RenderWindow& window, const std::string& playerName, in
             if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                 if (retryText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                    PlayScreen playScreen(playerName);  // Pass player name to restart the game
-                    playScreen.show(window);  // Restart the game
+                    // PlayScreen playScreen(playerName);  // Pass player name to restart the game
+                    // playScreen.show(window);  // Restart the game
+                    Game::getInstance().switchScreen("play");
                     return;
                 }
                 if (exitText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {

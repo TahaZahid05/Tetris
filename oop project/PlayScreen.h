@@ -5,6 +5,7 @@
 #include <SFML/Audio.hpp>
 #include <string>
 #include <queue>
+#include "Tetromino.h"
 #define numberfOfRows 15
 #define numberOfColumns 7
 
@@ -32,12 +33,17 @@ private:
     sf::SoundBuffer GameOver;
     std::queue<sf::SoundBuffer*> soundQueue;
     std::string playerName;
+    Tetromino* currentShape;
+    Tetromino* nextShape;
+    Tetromino* nextShapePrint;
     void playNextSound();
     void stopSound();
 public:
     PlayScreen(const std::string& playerName);
+    ~PlayScreen();
     void show(sf::RenderWindow& window);
     void removeFilledRows(std::vector<sf::RectangleShape>& settledShapes);
+    int getScore() const;
 
 };
 

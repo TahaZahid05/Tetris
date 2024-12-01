@@ -1,4 +1,5 @@
 #include "InitialScreen.h"
+#include "Game.h"
 
 void InitialScreen::show(sf::RenderWindow& window) {
     if (!bgBuffer.loadFromFile("sounds/initialBG.ogg")) {
@@ -47,9 +48,7 @@ void InitialScreen::show(sf::RenderWindow& window) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                 if (playText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
                     bgSound.stop();
-
-                    PlayerInfo playerInfo;
-                    playerInfo.show(window);
+                    Game::getInstance().switchScreen("enterPlayerName");
                     return;
                 }
                 if (exitText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
@@ -57,9 +56,7 @@ void InitialScreen::show(sf::RenderWindow& window) {
                     window.close();
                 }
                 if (howToPlayText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                    // bgSound.stop();
-                    HowToPlayScreen howToPlayScreen;
-                    howToPlayScreen.show(window);   
+                    Game::getInstance().switchScreen("howToPlay");
                     return;
                 }
             }

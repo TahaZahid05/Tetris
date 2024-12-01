@@ -1,5 +1,5 @@
-
 #include "EnterPlayerName.h"
+#include "Game.h"
 #include <iostream>
 
 PlayerInfo::PlayerInfo()
@@ -28,8 +28,7 @@ void PlayerInfo::show(sf::RenderWindow& window) {
             }
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
                 capturingName = false;
-                PlayScreen playScreen(playerName); 
-                playScreen.show(window);
+                Game::getInstance().switchScreen("play");
             }
         }
 

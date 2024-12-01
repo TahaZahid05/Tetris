@@ -1,5 +1,5 @@
 #include "howToPlayScreen.h"
-#include "InitialScreen.h"
+#include "Game.h"
 #include <SFML/Graphics.hpp>
 
 // ...existing code...
@@ -51,8 +51,7 @@ void HowToPlayScreen::show(sf::RenderWindow& window) {
             if(event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                 if(backText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                    InitialScreen initialScreen;
-                    initialScreen.show(window);
+                    Game::getInstance().switchScreen("initial");
                     return;
                 }
             }
