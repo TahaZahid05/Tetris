@@ -28,7 +28,7 @@ void PlayerInfo::show(sf::RenderWindow& window) {
             }
             if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
                 capturingName = false;
-                 PlayScreen playScreen(playerName); 
+                PlayScreen playScreen(playerName); 
                 playScreen.show(window);
             }
         }

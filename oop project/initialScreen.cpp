@@ -6,7 +6,8 @@ void InitialScreen::show(sf::RenderWindow& window) {
     }
     bgSound.setBuffer(bgBuffer);
     bgSound.setLoop(true);
-    bgSound.play();
+    if(bgSound.getStatus() != sf::Sound::Playing)
+        bgSound.play();
 
     sf::Font font;
     if (!font.loadFromFile("ARIAL.TTF")) {
@@ -46,6 +47,7 @@ void InitialScreen::show(sf::RenderWindow& window) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                 if (playText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
                     bgSound.stop();
+
                     PlayerInfo playerInfo;
                     playerInfo.show(window);
                     return;
@@ -55,7 +57,7 @@ void InitialScreen::show(sf::RenderWindow& window) {
                     window.close();
                 }
                 if (howToPlayText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                    bgSound.stop();
+                    // bgSound.stop();
                     HowToPlayScreen howToPlayScreen;
                     howToPlayScreen.show(window);   
                     return;

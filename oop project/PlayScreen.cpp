@@ -57,9 +57,9 @@ void PlayScreen::removeFilledRows(std::vector<sf::RectangleShape>& settledShapes
                 if(!levelUpBuffer.loadFromFile("sounds/next-level-101soundboards.ogg")){
                     return;
                 }
+                levelUpSound.setBuffer(levelUpBuffer);
+                levelUpSound.play();
             }
-            levelUpSound.setBuffer(levelUpBuffer);
-            levelUpSound.play();
             level = lines / 10;
             // Remove all squares in the filled row
             settledShapes.erase(
