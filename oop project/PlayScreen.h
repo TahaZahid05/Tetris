@@ -2,7 +2,7 @@
 #define PLAYSCREEN_H
 
 #include <SFML/Graphics.hpp>
-
+#include <string>
 #define numberfOfRows 15
 #define numberOfColumns 7
 
@@ -12,8 +12,9 @@ private:
     int score;
     int lines;
     int level;
+ std::string playerName;
 public:
-    PlayScreen();
+    PlayScreen(const std::string& playerName);
     void show(sf::RenderWindow& window);
     void removeFilledRows(std::vector<sf::RectangleShape>& settledShapes);
 };

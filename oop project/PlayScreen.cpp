@@ -5,6 +5,7 @@
 #include "EndScreen.h"
 #include "PlayScreen.h"
 #include "Tetromino.h"
+#include "EnterPlayerName.h"
 #include "I.h"
 #include "O.h"
 #include "J.h"
@@ -15,7 +16,8 @@
 
 // using namespace std;
 
-PlayScreen::PlayScreen(): score(0), lines(0), level(0) {
+PlayScreen::PlayScreen(const std::string& playerName) 
+    : score(0), lines(0), level(0), playerName(playerName) {
     for (int i = 0; i < numberfOfRows; i++) {
         for (int j = 0; j < numberOfColumns; j++) {
             tetrisRectangles[i][j].setSize(sf::Vector2f(50.f, 50.f));
@@ -245,6 +247,7 @@ void PlayScreen::show(sf::RenderWindow& window) {
                             for (const auto& shape : settledShapes) {
                                 window.draw(shape);
                             }
+      
                             currentShape->draw(window);
                             window.draw(rectNextBorder);
                             window.draw(rectNext);
@@ -253,7 +256,8 @@ void PlayScreen::show(sf::RenderWindow& window) {
                             window.display();
                         }
                         EndScreen endScreen;
-                        endScreen.show(window);
+                        endScreen.saveHighScore(playerName, score);
+                        endScreen.show(window, playerName, score);
                     }
                     else{
                         velocity.y = 0;
@@ -343,7 +347,8 @@ void PlayScreen::show(sf::RenderWindow& window) {
                             window.display();
                         }
                         EndScreen endScreen;
-                        endScreen.show(window);
+                        //endScreen.saveHighScore(playerName, score);
+                        endScreen.show(window, playerName, score);
                     }
                     else{
                         velocity.y = 0;
