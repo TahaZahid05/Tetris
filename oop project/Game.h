@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "InitialScreen.h"
 #include "howToPlayScreen.h"
 #include "PlayScreen.h"

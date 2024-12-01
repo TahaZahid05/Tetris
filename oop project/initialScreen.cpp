@@ -1,11 +1,13 @@
-#include <SFML/Graphics.hpp>
-#include <string>
-#include "PlayScreen.h"
 #include "InitialScreen.h"
-#include "howToPlayScreen.h"
-#include "EnterPlayerName.h"
 
 void InitialScreen::show(sf::RenderWindow& window) {
+    if (!bgBuffer.loadFromFile("sounds/initialBG.ogg")) {
+        return;
+    }
+    bgSound.setBuffer(bgBuffer);
+    bgSound.setLoop(true);
+    bgSound.play();
+
     sf::Font font;
     if (!font.loadFromFile("ARIAL.TTF")) {
         return;
@@ -43,16 +45,17 @@ void InitialScreen::show(sf::RenderWindow& window) {
             if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                 if (playText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                    // PlayScreen playScreen;
-                    // playScreen.show(window);
+                    bgSound.stop();
                     PlayerInfo playerInfo;
                     playerInfo.show(window);
                     return;
                 }
                 if (exitText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                    bgSound.stop();
                     window.close();
                 }
                 if (howToPlayText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                    bgSound.stop();
                     HowToPlayScreen howToPlayScreen;
                     howToPlayScreen.show(window);   
                     return;

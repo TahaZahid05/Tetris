@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -47,6 +48,13 @@ void PlayScreen::removeFilledRows(std::vector<sf::RectangleShape>& settledShapes
         if (filledCount == numCols) {
             lines += 1;
             totalLinesGone += 1;
+            if (lines / 10 > level){
+                if(!levelUpBuffer.loadFromFile("sounds/next-level-101soundboards.ogg")){
+                    return;
+                }
+            }
+            levelUpSound.setBuffer(levelUpBuffer);
+            levelUpSound.play();
             level = lines / 10;
             // Remove all squares in the filled row
             settledShapes.erase(
@@ -79,6 +87,33 @@ void PlayScreen::removeFilledRows(std::vector<sf::RectangleShape>& settledShapes
 }
 
 void PlayScreen::show(sf::RenderWindow& window) {
+    if(!bgBuffer.loadFromFile("sounds/nutcracker-101soundboards.ogg")){
+        return;
+    }
+    if(!bgBuffer1.loadFromFile("sounds/nutcracker-2-101soundboards.ogg")){
+        return;
+    }
+    if(!bgBuffer2.loadFromFile("sounds/nutcracker-3-101soundboards.ogg")){
+        return;
+    }
+    if(!bgBuffer3.loadFromFile("sounds/nutcracker-4-101soundboards.ogg")){
+        return;
+    }
+    if(!bgBuffer4.loadFromFile("sounds/nutcracker-5-101soundboards.ogg")){
+        return;
+    }
+    if(!bgBuffer5.loadFromFile("sounds/nutcracker-6-101soundboards.ogg")){
+        return;
+    }
+    soundQueue.push(&bgBuffer);
+    soundQueue.push(&bgBuffer1);
+    soundQueue.push(&bgBuffer2);
+    soundQueue.push(&bgBuffer3);
+    soundQueue.push(&bgBuffer4);
+    soundQueue.push(&bgBuffer5);
+
+    playNextSound();
+
     level = 1;
     sf::RectangleShape rect(sf::Vector2f(180.f, 320.f));
     rect.setPosition(50, 20);
@@ -172,6 +207,9 @@ void PlayScreen::show(sf::RenderWindow& window) {
     pauseButtonText.setFillColor(sf::Color::White);
 
     while (window.isOpen()) {
+        if(bgSound.getStatus() == sf::Sound::Stopped){
+            playNextSound();
+        }
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
@@ -225,6 +263,12 @@ void PlayScreen::show(sf::RenderWindow& window) {
                         sf::Text scoreScore(std::to_string(score), font, 30);
                         scoreScore.setPosition(109 + (21/(std::to_string(score)).length()), 260);
                         scoreScore.setFillColor(sf::Color::White);
+                        bgSound.stop();
+                        if(!GameOver.loadFromFile("sounds/game-over-101soundboards.ogg")){
+                            return;
+                        }
+                        bgSound.setBuffer(GameOver);
+                        bgSound.play();
                         while (clock.getElapsedTime().asSeconds() < 2.0f) {
                             // Display the current state to the user
                             window.clear(sf::Color::White);
@@ -442,4 +486,15 @@ void PlayScreen::show(sf::RenderWindow& window) {
     }
 
     delete nextShapePrint;
+}
+
+
+void PlayScreen::playNextSound(){
+    if (!soundQueue.empty()) {
+        sf::SoundBuffer* nextBuffer = soundQueue.front();
+        soundQueue.pop();
+        bgSound.setBuffer(*nextBuffer);
+        soundQueue.push(nextBuffer);
+        bgSound.play();
+    }
 }

@@ -1,4 +1,5 @@
 #include "Game.h"
+#include <SFML/Audio.hpp>
 
 Game::Game()
     : window(sf::VideoMode(1600,900), "Tetris Game"){
