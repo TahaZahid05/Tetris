@@ -22,6 +22,12 @@ private:
     sf::SoundBuffer bgBuffer4;
     sf::SoundBuffer bgBuffer5;
     sf::SoundBuffer levelUpBuffer;
+    sf::SoundBuffer rotateBuffer;
+    sf::SoundBuffer moveBuffer;
+    sf::SoundBuffer lineUpBuffer;
+    sf::Sound lineUpSound;
+    sf::Sound rotateSound;
+    sf::Sound moveSound;
     sf::Sound levelUpSound;
     sf::SoundBuffer GameOver;
     std::queue<sf::SoundBuffer*> soundQueue;

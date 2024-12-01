@@ -47,8 +47,13 @@ void PlayScreen::removeFilledRows(std::vector<sf::RectangleShape>& settledShapes
 
         if (filledCount == numCols) {
             lines += 1;
+            if(!lineUpBuffer.loadFromFile("sounds/tetris-gb-21-line-clear-101soundboards.ogg")){
+                return;
+            }
+            lineUpSound.setBuffer(lineUpBuffer);
+            lineUpSound.play();
             totalLinesGone += 1;
-            if (lines / 10 > level){
+            if (int(lines / 10) > level){
                 if(!levelUpBuffer.loadFromFile("sounds/next-level-101soundboards.ogg")){
                     return;
                 }
@@ -225,19 +230,36 @@ void PlayScreen::show(sf::RenderWindow& window) {
             if (!isPaused) {
                 if(event.type == sf::Event::KeyPressed){
                     if(event.key.code == sf::Keyboard::Up){
-                        if(currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes)))
+                        if(currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes))){
                             currentShape->rotate();
+                            if(!rotateBuffer.loadFromFile("sounds/tetris-gb-19-rotate-piece-101soundboards.ogg")){
+                                return;
+                            }
+                            rotateSound.setBuffer(rotateBuffer);
+                            rotateSound.play();
+                        }
                     }
                     else if(event.key.code == sf::Keyboard::Right){
                         if(currentShape->getFrontRectXRight()->getPosition().x < 880 && currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes))){
                             currentShape->move(sf::Vector2f(55.f, 0.f));
+                            if(!moveBuffer.loadFromFile("sounds/tetris-gb-18-move-piece-101soundboards.ogg")){
+                                return;
+                            }
+                            moveSound.setBuffer(moveBuffer);
+                            moveSound.play();
                         }
                     }
                     else if(event.key.code == sf::Keyboard::Left){
                         if(currentShape->getFrontRectXLeft()->getPosition().x > 550 && currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes))){
                             currentShape->move(sf::Vector2f(-55.f, 0.f));
+                            if(!moveBuffer.loadFromFile("sounds/tetris-gb-18-move-piece-101soundboards.ogg")){
+                                return;
+                            }
+                            moveSound.setBuffer(moveBuffer);
+                            moveSound.play();
                         }
                     }
+                    
                 }
             }
         }
@@ -361,6 +383,12 @@ void PlayScreen::show(sf::RenderWindow& window) {
                         sf::Text scoreScore(std::to_string(score), font, 30);
                         scoreScore.setPosition(109 + (21/(std::to_string(score)).length()), 260);
                         scoreScore.setFillColor(sf::Color::White);
+                        bgSound.stop();
+                        if(!GameOver.loadFromFile("sounds/game-over-101soundboards.ogg")){
+                            return;
+                        }
+                        bgSound.setBuffer(GameOver);
+                        bgSound.play();
                         while (clock.getElapsedTime().asSeconds() < 2.0f) {
                             // Display the current state to the user
                             window.clear(sf::Color::White);
@@ -391,7 +419,7 @@ void PlayScreen::show(sf::RenderWindow& window) {
                             window.display();
                         }
                         EndScreen endScreen;
-                        //endScreen.saveHighScore(playerName, score);
+                        endScreen.saveHighScore(playerName, score);
                         endScreen.show(window, playerName, score);
                     }
                     else{
@@ -495,6 +523,7 @@ void PlayScreen::playNextSound(){
         soundQueue.pop();
         bgSound.setBuffer(*nextBuffer);
         soundQueue.push(nextBuffer);
+        bgSound.setVolume(25);
         bgSound.play();
     }
 }
