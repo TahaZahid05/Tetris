@@ -1,22 +1,21 @@
 #include "Game.h"
 #include <SFML/Audio.hpp>
 
-Game::Game()
-    : window(sf::VideoMode(1600, 900), "Tetris Game"), playScreen(nullptr) {
+Game* Game::instance = nullptr;
+
+Game::Game(): window(sf::VideoMode(1600, 900), "Tetris Game"), playScreen(nullptr) {
     window.setPosition(sf::Vector2i(0, 0));
-    // window.setUserData(this);
 }
 
 Game& Game::getInstance() {
-    static Game instance;
-    return instance;
+    if(instance == nullptr) {
+        instance = new Game();
+    }
+    return *instance;
 }
 
 void Game::run() {
     switchScreen("initial");
-    while (window.isOpen()) {
-        // Main game loop
-    }
 }
 
 void Game::switchScreen(const std::string& screenName) {

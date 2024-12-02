@@ -13,8 +13,7 @@ class InitialScreen {
 public:
     void show(sf::RenderWindow& window);
 private:
-    sf::SoundBuffer bgBuffer;
-    sf::Sound bgSound;
+    SoundManager intialSound;
 };
 
 #endif

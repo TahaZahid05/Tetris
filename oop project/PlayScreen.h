@@ -6,11 +6,13 @@
 #include <string>
 #include <queue>
 #include "Tetromino.h"
+#include "SoundManager.h"
 #define numberfOfRows 15
 #define numberOfColumns 7
 
 class PlayScreen {
 private:
+    SoundManager playSound;
     sf::RectangleShape tetrisRectangles[numberfOfRows][numberOfColumns];
     int score;
     int lines;

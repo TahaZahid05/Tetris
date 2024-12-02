@@ -1,14 +1,9 @@
 #include "InitialScreen.h"
+#include "SoundManager.h"
 #include "Game.h"
 
 void InitialScreen::show(sf::RenderWindow& window) {
-    if (!bgBuffer.loadFromFile("sounds/initialBG.ogg")) {
-        return;
-    }
-    bgSound.setBuffer(bgBuffer);
-    bgSound.setLoop(true);
-    if(bgSound.getStatus() != sf::Sound::Playing)
-        bgSound.play();
+    intialSound.playBackgroundMusic("sounds/initialBG.ogg");
 
     sf::Font font;
     if (!font.loadFromFile("ARIAL.TTF")) {
@@ -47,12 +42,12 @@ void InitialScreen::show(sf::RenderWindow& window) {
             if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
                 if (playText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                    bgSound.stop();
+                    intialSound.stopBackgroundMusic();
                     Game::getInstance().switchScreen("enterPlayerName");
                     return;
                 }
                 if (exitText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                    bgSound.stop();
+                    intialSound.stopBackgroundMusic();
                     window.close();
                 }
                 if (howToPlayText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {

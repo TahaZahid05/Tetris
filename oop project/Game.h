@@ -19,7 +19,7 @@ private:
     Game();
     Game(const Game&) = delete;
     Game& operator=(const Game&) = delete;
-
+    static Game* instance;
     sf::RenderWindow window;
     InitialScreen initialScreen;
     HowToPlayScreen howToPlayScreen;
