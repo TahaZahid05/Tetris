@@ -12,7 +12,7 @@ using namespace std;
 void EndScreen::loadHighScores() {
     std::ifstream highscoreFile("highscore.csv");
     std::string line;
-    highScores.clear();  // Clear any existing scores
+    highScores.clear(); // Clear any existing scores
 
     while (std::getline(highscoreFile, line)) {
         std::stringstream ss(line);
@@ -23,7 +23,7 @@ void EndScreen::loadHighScores() {
         if (std::getline(ss, playerName, ',') && ss >> score) {
             highScores.push_back({playerName, score});
             if (playerName == currentPlayer) {
-                personalBestScore = std::max(personalBestScore, score);  // Update personal best for current player
+                personalBestScore = std::max(personalBestScore, score); // Update personal best for current player
             }
         }
     }
@@ -31,21 +31,21 @@ void EndScreen::loadHighScores() {
 }
 
 void EndScreen::displayHighScore(sf::RenderWindow& window, sf::Font& font) {
-    if (highScores.empty()) return;  // No high scores available
+    if (highScores.empty()) return; // No high scores available
 
     // Find the highest score overall
     auto highest = *std::max_element(highScores.begin(), highScores.end(),
                                       [](const std::pair<std::string, int>& a, const std::pair<std::string, int>& b) {
-                                          return a.second < b.second;  // Compare by score
+                                          return a.second < b.second; // Compare by score
                                       });
 
     // Display highest score
     sf::Text highScoreText;
     highScoreText.setFont(font);
     highScoreText.setCharacterSize(30);
-    highScoreText.setFillColor(sf::Color::White);
+    highScoreText.setFillColor(sf::Color::Yellow);
     highScoreText.setString("High Score: " + highest.first + " - " + std::to_string(highest.second));
-    highScoreText.setPosition(200, 200);  // Adjust position as needed
+    highScoreText.setPosition(300, 150); // Adjust position as needed
 
     window.draw(highScoreText);
 }
@@ -55,9 +55,9 @@ void EndScreen::displayCurrentScore(sf::RenderWindow& window, sf::Font& font, in
     sf::Text currentScoreText;
     currentScoreText.setFont(font);
     currentScoreText.setCharacterSize(30);
-    currentScoreText.setFillColor(sf::Color::White);
+    currentScoreText.setFillColor(sf::Color::Cyan);
     currentScoreText.setString("Current Score: " + std::to_string(score));
-    currentScoreText.setPosition(200, 250);  // Adjust position as needed
+    currentScoreText.setPosition(300, 200); // Adjust position as needed
 
     window.draw(currentScoreText);
 }
@@ -67,22 +67,48 @@ void EndScreen::displayPersonalBest(sf::RenderWindow& window, sf::Font& font) {
     sf::Text personalBestText;
     personalBestText.setFont(font);
     personalBestText.setCharacterSize(30);
-    personalBestText.setFillColor(sf::Color::White);
+    personalBestText.setFillColor(sf::Color::Green);
     personalBestText.setString("Personal Best: " + std::to_string(personalBestScore));
-    personalBestText.setPosition(400, 500);  // Adjust position as needed
+    personalBestText.setPosition(300, 250); // Adjust position as needed
 
     window.draw(personalBestText);
 }
 
 void EndScreen::saveHighScore(const std::string& playerName, int score) {
-    std::ofstream highscoreFile("highscore.csv", std::ios::app); // Open in append mode
-
-    if (highscoreFile.is_open()) {
-        highscoreFile << playerName << "," << score << std::endl;  // Format: Name,Score
-        highscoreFile.close();
-    } else {
-        std::cout << "Unable to open highscore file!" << std::endl;
+    static bool scoreSaved = false; // Ensure scores are saved only once per session
+    if (scoreSaved) {
+        return;
     }
+    scoreSaved = true;
+
+    std::vector<std::pair<std::string, int>> highScores;
+    std::ifstream infile("highscore.csv");
+    std::string line;
+
+    // Read existing high scores
+    while (std::getline(infile, line)) {
+        std::stringstream ss(line);
+        std::string name;
+        int existingScore;
+        if (std::getline(ss, name, ',') && ss >> existingScore) {
+            highScores.push_back({name, existingScore});
+        }
+    }
+    infile.close();
+
+    // Add the new score
+    highScores.push_back({playerName, score});
+
+    // Sort scores in descending order
+    std::sort(highScores.begin(), highScores.end(),
+              [](const auto& a, const auto& b) { return a.second > b.second; });
+
+    // Write back the updated scores
+    std::ofstream outfile("highscore.csv", std::ios::trunc);
+    for (const auto& entry : highScores) {
+        outfile << entry.first << "," << entry.second << "\n";
+    }
+    outfile.close();
 }
 
 void EndScreen::show(sf::RenderWindow& window, const std::string& playerName, int score) {
@@ -92,16 +118,28 @@ void EndScreen::show(sf::RenderWindow& window, const std::string& playerName, in
     }
 
     // Display "Game Over" text
-    sf::Text gameOverText("Game Over", font, 50);
+    sf::Text gameOverText("Game Over", font, 60);
     gameOverText.setFillColor(sf::Color::Red);
-    gameOverText.setPosition(200, 100);
+    gameOverText.setStyle(sf::Text::Bold);
+    gameOverText.setPosition(300, 50);
 
-    // Retry and Exit buttons
+    // Retry button
+    sf::RectangleShape retryButton(sf::Vector2f(200, 50));
+    retryButton.setPosition(300, 350);
+    retryButton.setFillColor(sf::Color::Blue);
+
     sf::Text retryText("Retry", font, 30);
-    retryText.setPosition(350, 300);
+    retryText.setFillColor(sf::Color::White);
+    retryText.setPosition(350, 355);
+
+    // Exit button
+    sf::RectangleShape exitButton(sf::Vector2f(200, 50));
+    exitButton.setPosition(300, 450);
+    exitButton.setFillColor(sf::Color::Blue);
 
     sf::Text exitText("Exit", font, 30);
-    exitText.setPosition(350, 400);
+    exitText.setFillColor(sf::Color::White);
+    exitText.setPosition(360, 455);
 
     // Set current player's name
     setPlayerName(playerName);
@@ -121,27 +159,37 @@ void EndScreen::show(sf::RenderWindow& window, const std::string& playerName, in
 
             if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-                if (retryText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                    // PlayScreen playScreen(playerName);  // Pass player name to restart the game
-                    // playScreen.show(window);  // Restart the game
+
+                if (retryButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
                     Game::getInstance().switchScreen("play");
                     return;
                 }
-                if (exitText.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
-                    window.close();  // Exit the game
+
+                if (exitButton.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+                    window.close(); // Exit the game
                 }
             }
         }
 
         window.clear();
+
+        // Draw game over text
         window.draw(gameOverText);
+
+        // Draw retry button
+        window.draw(retryButton);
         window.draw(retryText);
+
+        // Draw exit button
+        window.draw(exitButton);
         window.draw(exitText);
 
         // Display current high score
         displayHighScore(window, font);
+
         // Display the current score
         displayCurrentScore(window, font, score);
+
         // Display the personal best score
         displayPersonalBest(window, font);
 
@@ -151,5 +199,5 @@ void EndScreen::show(sf::RenderWindow& window, const std::string& playerName, in
 
 void EndScreen::setPlayerName(const std::string& playerName) {
     currentPlayer = playerName;
-    personalBestScore = 0;  // Initialize personal best score to 0 (it will be updated during score loading)
+    personalBestScore = 0; // Initialize personal best score to 0 (it will be updated during score loading)
 }

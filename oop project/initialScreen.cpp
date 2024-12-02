@@ -28,10 +28,10 @@ void InitialScreen::show(sf::RenderWindow& window) {
     playText.setPosition(750, 300);
 
     sf::Text exitText("Exit", font, 30);
-    exitText.setPosition(750, 400);
+    exitText.setPosition(750, 500);
 
     sf::Text howToPlayText("How to play", font, 30);
-    howToPlayText.setPosition(750, 500);
+    howToPlayText.setPosition(750, 400);
 
     while (window.isOpen()) {
         sf::Event event;
