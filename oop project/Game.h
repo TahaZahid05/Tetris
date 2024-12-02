@@ -28,4 +28,4 @@ private:
     PlayerInfo playerInfo;
 };
 
-#endif // GAME_H
+#endif

@@ -9,7 +9,7 @@ I::I(): rotationState(0) {
     blocks[1].setPosition(605, 10);
     blocks[2].setPosition(660, 10);
     blocks[3].setPosition(715, 10);
-    center = &blocks[1];
+    center = &blocks[2];
     frontRectXRight = &blocks[3];
     frontRectXLeft = &blocks[0];
     frontRectY = &blocks[1];
@@ -21,9 +21,10 @@ void I::rotate() {
         case 0:
             if(center->getPosition().y - 55 >= 10 && center->getPosition().y - 55 <= 780 && center->getPosition().y + 55 >= 10 && center->getPosition().y + 55 <= 780
             && center->getPosition().y + 110 >= 10 && center->getPosition().y + 110 <= 780){
-                blocks[0].setPosition(center->getPosition().x,center->getPosition().y - 55);
-                blocks[2].setPosition(center->getPosition().x,center->getPosition().y + 55);
-                blocks[3].setPosition(center->getPosition().x,center->getPosition().y + 110);
+                center->setPosition(center->getPosition().x,center->getPosition().y + 55);
+                blocks[0].setPosition(center->getPosition().x,center->getPosition().y - 110);
+                blocks[1].setPosition(center->getPosition().x,center->getPosition().y - 55);
+                blocks[3].setPosition(center->getPosition().x,center->getPosition().y + 55);
                 rotationState = 1;
                 frontRectY = &blocks[3];
                 frontRectXRight = &blocks[2];
@@ -32,20 +33,21 @@ void I::rotate() {
             }
         case 1:
             if(blocks[2].getPosition().x - 55 >= 550 && blocks[2].getPosition().x - 55 <= 880){
-                blocks[1].setPosition(blocks[2].getPosition().x - 55,blocks[2].getPosition().y);
                 if(center->getPosition().x -55 >= 550 && center->getPosition().x -55 <= 880 && center->getPosition().x + 110 >= 550 && center->getPosition().x + 110 <= 880){
-                    blocks[0].setPosition(center->getPosition().x - 55,center->getPosition().y);
-                    blocks[3].setPosition(center->getPosition().x + 110,center->getPosition().y);
+                    blocks[0].setPosition(center->getPosition().x - 110,center->getPosition().y);
+                    blocks[1].setPosition(center->getPosition().x - 55,center->getPosition().y);
+                    blocks[3].setPosition(center->getPosition().x + 55,center->getPosition().y);
                     rotationState = 2;
                     frontRectY = &blocks[2];
                     frontRectXRight = &blocks[3];
                     frontRectXLeft = &blocks[0];
+                    center = &blocks[1];
                     break;
                 }
             }
         case 2:
             if(center->getPosition().y - 55 >= 10 && center->getPosition().y - 55 <= 780){
-                blocks[1].setPosition(center->getPosition().x,center->getPosition().y - 55);
+                center->setPosition(center->getPosition().x,center->getPosition().y - 55);
                 if(center->getPosition().y - 55 >= 10 && center->getPosition().y - 55 <= 780 && center->getPosition().y + 55 >= 10 && center->getPosition().y + 55 <= 780
                 && center->getPosition().y + 110 >= 10 && center->getPosition().y + 110 <= 780){
                     blocks[0].setPosition(center->getPosition().x,center->getPosition().y - 55);
@@ -68,6 +70,7 @@ void I::rotate() {
                 frontRectY = &blocks[2];
                 frontRectXRight = &blocks[3];
                 frontRectXLeft = &blocks[0];
+                center = &blocks[2];
                 break;   
             }
     }

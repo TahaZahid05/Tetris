@@ -9,6 +9,7 @@
 #include "SoundManager.h"
 #define numberfOfRows 15
 #define numberOfColumns 7
+#define LINES_PER_LEVEL 2
 
 class PlayScreen {
 private:
@@ -17,23 +18,6 @@ private:
     int score;
     int lines;
     int level;
-    sf::Sound bgSound;
-    sf::SoundBuffer bgBuffer;
-    sf::SoundBuffer bgBuffer1;
-    sf::SoundBuffer bgBuffer2;
-    sf::SoundBuffer bgBuffer3;
-    sf::SoundBuffer bgBuffer4;
-    sf::SoundBuffer bgBuffer5;
-    sf::SoundBuffer levelUpBuffer;
-    sf::SoundBuffer rotateBuffer;
-    sf::SoundBuffer moveBuffer;
-    sf::SoundBuffer lineUpBuffer;
-    sf::Sound lineUpSound;
-    sf::Sound rotateSound;
-    sf::Sound moveSound;
-    sf::Sound levelUpSound;
-    sf::SoundBuffer GameOver;
-    std::queue<sf::SoundBuffer*> soundQueue;
     std::string playerName;
     Tetromino* currentShape;
     Tetromino* nextShape;

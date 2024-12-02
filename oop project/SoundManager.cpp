@@ -38,7 +38,7 @@ void SoundManager::playBackgroundMusic(std::string bgMusic) {
         return;
     }
     backgroundMusic.setBuffer(bgBuffer);
-    backgroundMusic.setLoop(true);
+    // backgroundMusic.setLoop(true);
     backgroundMusic.setVolume(25);
     backgroundMusic.play();
 }

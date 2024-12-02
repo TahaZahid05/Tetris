@@ -24,7 +24,7 @@ int PlayScreen::getScore() const {
 }
 
 PlayScreen::PlayScreen(const std::string& playerName) 
-    : score(0), lines(0), level(0), playerName(playerName), currentShape(new J()), nextShape(new O()), nextShapePrint(nextShape->clone()) {
+    : score(0), lines(0), level(1), playerName(playerName), currentShape(new I()), nextShape(new O()), nextShapePrint(nextShape->clone()) {
     for (int i = 0; i < numberfOfRows; i++) {
         for (int j = 0; j < numberOfColumns; j++) {
             tetrisRectangles[i][j].setSize(sf::Vector2f(50.f, 50.f));
@@ -56,17 +56,17 @@ void PlayScreen::removeFilledRows(std::vector<sf::RectangleShape>& settledShapes
                 }
             }
         }
-
+    
         if (filledCount == numCols) {
             lines += 1;
             playSound.loadSound("sounds/tetris-gb-21-line-clear-101soundboards.ogg");
             playSound.playSound(playSound.getSoundBufferLength() - 1);
             totalLinesGone += 1;
-            if (int(lines / 10) > level){
+            if (lines / LINES_PER_LEVEL > (level-1)) {
                 playSound.loadSound("sounds/next-level-101soundboards.ogg");
                 playSound.playSound(playSound.getSoundBufferLength() - 1);
+                level = (lines / LINES_PER_LEVEL) + 1;
             }
-            level = lines / 10;
             // Remove all squares in the filled row
             settledShapes.erase(
                 std::remove_if(settledShapes.begin(), settledShapes.end(),
@@ -81,6 +81,9 @@ void PlayScreen::removeFilledRows(std::vector<sf::RectangleShape>& settledShapes
                     shape.move(0, rowHeight);
                 }
             }
+        }
+        else {
+            std::cout << filledCount << " " << numCols << std::endl;
         }
     }
     if(totalLinesGone == 1){
@@ -163,21 +166,11 @@ void PlayScreen::show(sf::RenderWindow& window) {
     std::vector<sf::RectangleShape> settledShapes;
     sf::Vector2f velocity(0.0f, 0.05f);
 
-    if(level <= 10){
-        velocity.y = 0.15f;
-    }
-    else if(level == 13){
-        velocity.y = 0.25f;
-    }
-    else if(level == 16){
+    if (level == 2) {
         velocity.y = 0.35f;
-    }
-    else if(level == 19){
-        velocity.y = 0.45f;
-    }
-    else if(level == 29){
-        velocity.y = 0.55f;
-    }
+    } else if (level == 4) {
+        velocity.y = 0.50f;
+    } 
 
     bool isPaused = false;
     sf::RectangleShape pauseButton(sf::Vector2f(100.f, 50.f));
@@ -189,9 +182,9 @@ void PlayScreen::show(sf::RenderWindow& window) {
     pauseButtonText.setFillColor(sf::Color::White);
 
     while (window.isOpen()) {
-        if(playSound.isBackgroundMusicPlaying() == false){
+        if(!playSound.isBackgroundMusicPlaying()){
             if(playSound.getCurrentBackgroundSound() == "sounds/nutcracker-101soundboards.ogg"){
-                playSound.playBackgroundMusic("sounds/nutcracker-102soundboards.ogg");
+                playSound.playBackgroundMusic("sounds/nutcracker-2-101soundboards.ogg");
             }
             else if(playSound.getCurrentBackgroundSound() == "sounds/nutcracker-2-101soundboards.ogg"){
                 playSound.playBackgroundMusic("sounds/nutcracker-3-101soundboards.ogg");
@@ -226,22 +219,41 @@ void PlayScreen::show(sf::RenderWindow& window) {
                     if(event.key.code == sf::Keyboard::Up){
                         if(currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes))){
                             currentShape->rotate();
-                            playSound.loadSound("sounds/tetris-gb-19-rotate-piece-101soundboards.ogg");
-                            playSound.playSound(playSound.getSoundBufferLength() - 1);
+                            if(currentShape->isColliding(settledShapes)){
+                                currentShape->rotate();
+                                currentShape->rotate();
+                                currentShape->rotate();
+                            }
+                            else{
+                                playSound.loadSound("sounds/tetris-gb-19-rotate-piece-101soundboards.ogg");
+                                playSound.playSound(playSound.getSoundBufferLength() - 1);
+                            }
+                            
                         }
                     }
                     else if(event.key.code == sf::Keyboard::Right){
                         if(currentShape->getFrontRectXRight()->getPosition().x < 880 && currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes))){
                             currentShape->move(sf::Vector2f(55.f, 0.f));
-                            playSound.loadSound("sounds/tetris-gb-18-move-piece-101soundboards.ogg");
-                            playSound.playSound(playSound.getSoundBufferLength() - 1);
+                            if(currentShape->isColliding(settledShapes)){
+                                currentShape->move(sf::Vector2f(-55.f, 0.f));
+                            }
+                            else{
+                                playSound.loadSound("sounds/tetris-gb-18-move-piece-101soundboards.ogg");
+                                playSound.playSound(playSound.getSoundBufferLength() - 1);
+                            }
                         }
                     }
                     else if(event.key.code == sf::Keyboard::Left){
                         if(currentShape->getFrontRectXLeft()->getPosition().x > 550 && currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes))){
                             currentShape->move(sf::Vector2f(-55.f, 0.f));
-                            playSound.loadSound("sounds/tetris-gb-18-move-piece-101soundboards.ogg");
-                            playSound.playSound(playSound.getSoundBufferLength() - 1);
+                            if(currentShape->isColliding(settledShapes)){
+                                currentShape->move(sf::Vector2f(55.f, 0.f));
+                            }
+                            else{
+                                playSound.loadSound("sounds/tetris-gb-18-move-piece-101soundboards.ogg");
+                                playSound.playSound(playSound.getSoundBufferLength() - 1);
+                            }
+                            
                         }
                     }
                     
@@ -353,7 +365,7 @@ void PlayScreen::show(sf::RenderWindow& window) {
             }
             else{
                 if(currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes)))
-                    velocity.y = 0.15f;
+                    velocity.y = 0.15f + (level - 1) * 0.02f;
                 else{
                     if(currentShape->isColliding(settledShapes) && currentShape->getFrontRectY()->getPosition().y <= 10){
                         velocity.y = 0;
