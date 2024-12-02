@@ -82,9 +82,6 @@ void PlayScreen::removeFilledRows(std::vector<sf::RectangleShape>& settledShapes
                 }
             }
         }
-        else {
-            std::cout << filledCount << " " << numCols << std::endl;
-        }
     }
     if(totalLinesGone == 1){
         score += 40 * (level + 1);

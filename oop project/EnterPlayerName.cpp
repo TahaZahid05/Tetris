@@ -40,9 +40,9 @@ void PlayerInfo::show(sf::RenderWindow& window) {
 }
 
 void PlayerInfo::capturePlayerName(sf::Event event) {
-    if (event.text.unicode == '' && !playerName.empty()) {
+    if (event.text.unicode == 8 && !playerName.empty()) {
         playerName.pop_back();
-    } else if (event.text.unicode < 128) {
+    } else if (event.text.unicode < 128 && event.text.unicode > 31) {
         playerName += static_cast<char>(event.text.unicode);
     }
     nameInputText.setString(playerName);
