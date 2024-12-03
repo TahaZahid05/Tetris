@@ -3,7 +3,7 @@
 
 Game* Game::instance = nullptr;
 
-Game::Game(): window(sf::VideoMode(1600, 900), "Tetris Game"), playScreen(nullptr) {
+Game::Game(): window(sf::VideoMode(1600, 900), "Tetris Game"), playScreen("") {
     window.setPosition(sf::Vector2i(0, 0));
 }
 
@@ -26,11 +26,10 @@ void Game::switchScreen(const std::string& screenName) {
     } else if (screenName == "enterPlayerName") {
         playerInfo.show(window);
     } else if (screenName == "play") {
-        if (playScreen) delete playScreen;
-        playScreen = new PlayScreen(playerInfo.getPlayerName());
-        playScreen->show(window);
+        playScreen = PlayScreen(playerInfo.getPlayerName());
+        playScreen.show(window);
     } else if (screenName == "end") {
-        endScreen.saveHighScore(playerInfo.getPlayerName(), playScreen->getScore());
-        endScreen.show(window, playerInfo.getPlayerName(), playScreen->getScore());
+        endScreen.saveHighScore(playerInfo.getPlayerName(), playScreen.getScore());
+        endScreen.show(window, playerInfo.getPlayerName(), playScreen.getScore());
     }
 }

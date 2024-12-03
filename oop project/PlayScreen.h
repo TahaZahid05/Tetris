@@ -26,7 +26,6 @@ private:
     void stopSound();
 public:
     PlayScreen(const std::string& playerName);
-    ~PlayScreen();
     void show(sf::RenderWindow& window);
     void removeFilledRows(std::vector<sf::RectangleShape>& settledShapes);
     int getScore() const;

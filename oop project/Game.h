@@ -23,7 +23,7 @@ private:
     sf::RenderWindow window;
     InitialScreen initialScreen;
     HowToPlayScreen howToPlayScreen;
-    PlayScreen* playScreen;
+    PlayScreen playScreen;
     EndScreen endScreen;
     PlayerInfo playerInfo;
 };

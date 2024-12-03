@@ -79,12 +79,6 @@ PlayScreen::PlayScreen(const std::string& playerName)
     }
 }
 
-PlayScreen::~PlayScreen() {
-    delete currentShape;
-    delete nextShape;
-    delete nextShapePrint;
-}
-
 void PlayScreen::removeFilledRows(std::vector<sf::RectangleShape>& settledShapes) {
     int rowHeight = 55;
     int numRows = 15; // Assuming 14 rows based on the grid height
