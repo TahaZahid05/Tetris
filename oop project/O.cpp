@@ -1,5 +1,6 @@
 #include "O.h"
-
+// Constructor
+//Shape created by taha and rotation logic by yousuf
 O::O() {
     for (int i = 0; i < 4; i++) {
         blocks[i].setSize(sf::Vector2f(50.f, 50.f));
@@ -14,11 +15,11 @@ O::O() {
     frontRectY = &blocks[3];
     center = &blocks[1];
 }
-
+// Rotate O shape
 void O::rotate() {
     // O shape does not need rotation
 }
-
+// Clone O shape
 Tetromino* O::clone() const {
     return new O(*this);
 }

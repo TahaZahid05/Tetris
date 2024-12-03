@@ -1,5 +1,6 @@
 #include "L.h"
-
+// Constructor
+//Shape created by taha and rotation logic by yousuf
 L::L() : rotationState(0) {
     for (int i = 0; i < 4; i++) {
         blocks[i].setSize(sf::Vector2f(50.f, 50.f));
@@ -14,6 +15,7 @@ L::L() : rotationState(0) {
     frontRectXLeft = &blocks[0];
     frontRectY = &blocks[3];
 }
+// Rotate L shape
 void L::rotate() {
     sf::Vector2f newPos0, newPos2, newPos3;
     switch (rotationState) {
@@ -83,7 +85,7 @@ void L::rotate() {
         break;
     }
 }
-
+// Clone L shape
 Tetromino* L::clone() const {
     return new L(*this);
 }

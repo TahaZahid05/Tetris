@@ -1,7 +1,7 @@
 #include "howToPlayScreen.h"
 #include "Game.h"
 #include <SFML/Graphics.hpp>
-
+// created by yousuf
 void HowToPlayScreen::show(sf::RenderWindow& window) {
     // Create a gradient background
     sf::VertexArray gradient(sf::Quads, 4);

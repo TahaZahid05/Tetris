@@ -1,11 +1,11 @@
 #include "Tetromino.h"
-
+// Constructor
 void Tetromino::move(sf::Vector2f velocity) {
     for (int i = 0; i < 4; i++) {
         blocks[i].move(velocity);
     }
 }
-
+// Draw Tetromino
 void Tetromino::draw(sf::RenderWindow& window) {
     for (const auto& block : blocks) {
         window.draw(block);
@@ -15,7 +15,7 @@ void Tetromino::draw(sf::RenderWindow& window) {
 // void Tetromino::rotate() {
 //     // no need
 // }
-
+// Getters
 sf::RectangleShape* Tetromino::getBlocks() {
     return blocks;
 }

@@ -1,7 +1,7 @@
 #include "EnterPlayerName.h"
 #include "Game.h"
 #include <iostream>
-
+// Constructor
 PlayerInfo::PlayerInfo()
     : capturingName(true), playerName("") {
     font.loadFromFile("ARIAL.TTF");
@@ -14,7 +14,7 @@ PlayerInfo::PlayerInfo()
     nameInputText.setCharacterSize(24);
     nameInputText.setPosition(100, 150);
 }
-
+// Display player name input screen
 void PlayerInfo::show(sf::RenderWindow& window) {
     while (window.isOpen() && capturingName) {
         sf::Event event;
@@ -38,7 +38,7 @@ void PlayerInfo::show(sf::RenderWindow& window) {
         window.display();
     }
 }
-
+// Capture player name input
 void PlayerInfo::capturePlayerName(sf::Event event) {
     if (event.text.unicode == 8 && !playerName.empty()) {
         playerName.pop_back();
@@ -47,7 +47,7 @@ void PlayerInfo::capturePlayerName(sf::Event event) {
     }
     nameInputText.setString(playerName);
 }
-
+// Get player name
 std::string PlayerInfo::getPlayerName() const {
     return playerName;
 }

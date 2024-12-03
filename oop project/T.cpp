@@ -1,5 +1,5 @@
 #include "T.h"
-
+//Shape created by taha and rotation logic by yousuf
 T::T(): rotationState(0) {
     for (int i = 0; i < 4; i++) {
         blocks[i].setSize(sf::Vector2f(50.f, 50.f));

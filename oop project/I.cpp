@@ -1,5 +1,6 @@
 #include "I.h"
-
+//Shape created by taha and rotation logic by yousuf
+// Constructor
 I::I(): rotationState(0) {
     for (int i = 0; i < 4; i++) {
         blocks[i].setSize(sf::Vector2f(50.f, 50.f));
@@ -14,7 +15,7 @@ I::I(): rotationState(0) {
     frontRectXLeft = &blocks[0];
     frontRectY = &blocks[1];
 }
-
+// Rotate I shape
 void I::rotate() {
     // Implement rotation logic for I shape
     switch(rotationState){
@@ -75,7 +76,7 @@ void I::rotate() {
             }
     }
 }
-
+// Clone I shape
 Tetromino* I::clone() const {
     return new I(*this);
 }

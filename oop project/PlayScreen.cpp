@@ -18,11 +18,11 @@
 #include "SoundManager.h"
 
 // using namespace std;
-
+// Game logic Created Taha Zahid
 int PlayScreen::getScore() const {
     return score;
 }
-
+// Constructor
 PlayScreen::PlayScreen(const std::string& playerName) 
     : score(0), lines(0), level(1), playerName(playerName) {
     int randomNum = rand() % 7;
@@ -78,7 +78,7 @@ PlayScreen::PlayScreen(const std::string& playerName)
         }
     }
 }
-
+// Destructor
 void PlayScreen::removeFilledRows(std::vector<sf::RectangleShape>& settledShapes) {
     int rowHeight = 55;
     int numRows = 15; // Assuming 14 rows based on the grid height
@@ -135,7 +135,7 @@ void PlayScreen::removeFilledRows(std::vector<sf::RectangleShape>& settledShapes
         score += 1200 * (level + 1);
     }
 }
-
+// Show the play screen
 void PlayScreen::show(sf::RenderWindow& window) {
     playSound.playBackgroundMusic("sounds/nutcracker-101soundboards.ogg");
 

@@ -8,7 +8,8 @@
 #include "PlayScreen.h"
 
 using namespace std;
-
+// Endscreen Created By Yousuf
+// Load high scores from file
 void EndScreen::loadHighScores() {
     std::ifstream highscoreFile("highscore.csv");
     std::string line;
@@ -29,7 +30,7 @@ void EndScreen::loadHighScores() {
     }
     highscoreFile.close();
 }
-
+// Display high score
 void EndScreen::displayHighScore(sf::RenderWindow& window, sf::Font& font) {
     if (highScores.empty()) return; // No high scores available
 
@@ -49,7 +50,7 @@ void EndScreen::displayHighScore(sf::RenderWindow& window, sf::Font& font) {
 
     window.draw(highScoreText);
 }
-
+// Display current score
 void EndScreen::displayCurrentScore(sf::RenderWindow& window, sf::Font& font, int score) {
     // Display current score
     sf::Text currentScoreText;
@@ -61,7 +62,7 @@ void EndScreen::displayCurrentScore(sf::RenderWindow& window, sf::Font& font, in
 
     window.draw(currentScoreText);
 }
-
+// Display personal best score
 void EndScreen::displayPersonalBest(sf::RenderWindow& window, sf::Font& font) {
     // Display personal best score
     sf::Text personalBestText;
@@ -73,7 +74,7 @@ void EndScreen::displayPersonalBest(sf::RenderWindow& window, sf::Font& font) {
 
     window.draw(personalBestText);
 }
-
+// Save high score
 void EndScreen::saveHighScore(const std::string& playerName, int score) {
     static bool scoreSaved = false; // Ensure scores are saved only once per session
     if (scoreSaved) {
@@ -110,7 +111,7 @@ void EndScreen::saveHighScore(const std::string& playerName, int score) {
     }
     outfile.close();
 }
-
+// Show end screen
 void EndScreen::show(sf::RenderWindow& window, const std::string& playerName, int score) {
     sf::Font font;
     if (!font.loadFromFile("ARIAL.TTF")) {

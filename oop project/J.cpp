@@ -1,5 +1,6 @@
 #include "J.h"
-
+// Constructor
+//Shape created by taha and rotation logic by yousuf
 J::J() : rotationState(0) {
     for (int i = 0; i < 4; i++) {
         blocks[i].setSize(sf::Vector2f(50.f, 50.f));
@@ -14,7 +15,7 @@ J::J() : rotationState(0) {
     frontRectXRight = &blocks[2];
     frontRectXLeft = &blocks[0];
 }
-
+// Rotate J shape
 void J::rotate() {
     sf::Vector2f newPos0, newPos2, newPos3;
     switch (rotationState) {
@@ -84,7 +85,7 @@ void J::rotate() {
             break;
     }
 }
-
+// Clone J shape
 Tetromino* J::clone() const {
     return new J(*this);
 }

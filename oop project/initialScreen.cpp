@@ -1,7 +1,7 @@
 #include "InitialScreen.h"
 #include "SoundManager.h"
 #include "Game.h"
-
+// Display initial screen
 void InitialScreen::show(sf::RenderWindow& window) {
     intialSound.playBackgroundMusic("sounds/initialBG.ogg");
 
