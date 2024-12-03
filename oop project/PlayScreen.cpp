@@ -24,7 +24,52 @@ int PlayScreen::getScore() const {
 }
 
 PlayScreen::PlayScreen(const std::string& playerName) 
-    : score(0), lines(0), level(1), playerName(playerName), currentShape(new I()), nextShape(new O()), nextShapePrint(nextShape->clone()) {
+    : score(0), lines(0), level(1), playerName(playerName) {
+    int randomNum = rand() % 7;
+    if(randomNum == 0){
+        currentShape = new I();
+    }
+    else if(randomNum == 1){
+        currentShape = new O();
+    }
+    else if(randomNum == 2){
+        currentShape = new T();
+    }
+    else if(randomNum == 3){
+        currentShape = new J();
+    }
+    else if(randomNum == 4){
+        currentShape = new L();
+    }
+    else if(randomNum == 5){
+        currentShape = new S();
+    }
+    else{
+        currentShape = new Z();
+    }
+    int randomNumTwo = rand() % 7;
+    if(randomNumTwo == 0){
+        nextShape = new I();
+    }
+    else if(randomNumTwo == 1){
+        nextShape = new O();
+    }
+    else if(randomNumTwo == 2){
+        nextShape = new T();
+    }
+    else if(randomNumTwo == 3){
+        nextShape = new J();
+    }
+    else if(randomNumTwo == 4){
+        nextShape = new L();
+    }
+    else if(randomNumTwo == 5){
+        nextShape = new S();
+    }
+    else{
+        nextShape = new Z();
+    }
+    nextShapePrint = nextShape->clone();
     for (int i = 0; i < numberfOfRows; i++) {
         for (int j = 0; j < numberOfColumns; j++) {
             tetrisRectangles[i][j].setSize(sf::Vector2f(50.f, 50.f));
