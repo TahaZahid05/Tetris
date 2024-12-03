@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+//Originally created by Taha. Changes made by yousuf to rotate to make it work correctly. First 3 shapes are made by taha. Last 4 made by yousuf
 class Tetromino {
 public:
     void move(sf::Vector2f velocity);

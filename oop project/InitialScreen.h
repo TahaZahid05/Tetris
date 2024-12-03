@@ -9,6 +9,8 @@
 #include "howToPlayScreen.h"
 #include "EnterPlayerName.h"
 
+// Created initially by Yousuf Aijaz. Changes made by both accordingly. Used to show initial screen
+
 class InitialScreen {
 public:
     void show(sf::RenderWindow& window);

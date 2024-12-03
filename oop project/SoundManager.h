@@ -7,6 +7,7 @@
 #include <vector>
 
 
+//Created by Taha. Used to handle sounds across different screens.
 class SoundManager{
     private:
         std::vector<sf::SoundBuffer> soundBuffers;

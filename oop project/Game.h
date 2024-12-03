@@ -1,3 +1,4 @@
+//Implemented by taha. Used as the main game loop
 #ifndef GAME_H
 #define GAME_H
 

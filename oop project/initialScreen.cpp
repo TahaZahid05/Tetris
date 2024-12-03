@@ -2,6 +2,7 @@
 #include "SoundManager.h"
 #include "Game.h"
 // Display initial screen
+// Created initially by Yousuf Aijaz. Changes made by both accordingly. Used to show initial screen
 void InitialScreen::show(sf::RenderWindow& window) {
     intialSound.playBackgroundMusic("sounds/initialBG.ogg");
 

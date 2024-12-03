@@ -18,7 +18,7 @@
 #include "SoundManager.h"
 
 // using namespace std;
-// Game logic Created Taha Zahid
+//Main logic created by Taha Zahid. Changes made by yousuf aijaz to include time, store score, and other features
 int PlayScreen::getScore() const {
     return score;
 }

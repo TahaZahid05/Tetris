@@ -5,6 +5,7 @@
 #include <string>  // For std::string
 #include <vector>  // For storing high scores
 
+//Created by yousuf.
 class EndScreen {
 private:
     std::vector<std::pair<std::string, int>> highScores;  // Store player name and score pairs

@@ -1,6 +1,7 @@
 #include "EnterPlayerName.h"
 #include "Game.h"
 #include <iostream>
+//Created by yousuf. Fixed by taha to take correct input.
 // Constructor
 PlayerInfo::PlayerInfo()
     : capturingName(true), playerName("") {

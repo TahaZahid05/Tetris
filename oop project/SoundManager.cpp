@@ -1,3 +1,4 @@
+//Created by Taha. Used to handle sounds across different screens.
 #include "SoundManager.h"
 
 void SoundManager::loadSound(const std::string& filename) {
@@ -7,25 +8,11 @@ void SoundManager::loadSound(const std::string& filename) {
     if(!soundBuffers[soundBufferLength - 1].loadFromFile(filename)) {
         return;
     }
-
-    // sf::SoundBuffer buffer;
-    // if (!buffer.loadFromFile(filename)) {
-    //     return;
-    // }
-    // soundBuffers.push_back(buffer);
-    // sf::Sound sound;
-    // sound.setBuffer(soundBuffers.back());
-    // sounds.push_back(sound);
 }
 
 void SoundManager::playSound(int index) {
     sounds.setBuffer(soundBuffers[soundBufferLength - 1]);
     sounds.play();
-    // if (index >= 0 && index < sounds.size()) {
-    //     sounds[index].play();
-    // } else {
-    //     return;
-    // }
 }
 
 void SoundManager::stopSound(int index) {
@@ -38,7 +25,6 @@ void SoundManager::playBackgroundMusic(std::string bgMusic) {
         return;
     }
     backgroundMusic.setBuffer(bgBuffer);
-    // backgroundMusic.setLoop(true);
     backgroundMusic.setVolume(25);
     backgroundMusic.play();
 }

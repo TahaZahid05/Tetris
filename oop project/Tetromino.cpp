@@ -1,4 +1,5 @@
 #include "Tetromino.h"
+//Originally created by Taha. Changes made by yousuf to rotate to make it work correctly.
 // Constructor
 void Tetromino::move(sf::Vector2f velocity) {
     for (int i = 0; i < 4; i++) {

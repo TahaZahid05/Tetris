@@ -1,3 +1,4 @@
+//Implemented by taha. Used as the main game loop
 #include "Game.h"
 #include <SFML/Audio.hpp>
 //

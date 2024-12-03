@@ -11,6 +11,7 @@
 #define numberOfColumns 7
 #define LINES_PER_LEVEL 2
 
+//Main logic created by Taha Zahid. Changes made by yousuf aijaz to include time, store score, and other features
 class PlayScreen {
 private:
     SoundManager playSound;
