@@ -6,8 +6,8 @@
 
 class Tetromino {
 public:
-    virtual void move(sf::Vector2f velocity);
-    virtual void draw(sf::RenderWindow& window);
+    void move(sf::Vector2f velocity);
+    void draw(sf::RenderWindow& window);
     virtual void rotate() = 0;
     sf::RectangleShape* getBlocks();
     sf::RectangleShape* getFrontRectXRight();
