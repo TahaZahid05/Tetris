@@ -7,6 +7,7 @@
 #include "InitialScreen.h"
 #include "PlayScreen.h"
 #include "howToPlayScreen.h"
+//Created by yousuf. Fixed by taha to take correct input.
 class PlayerInfo {
 public:
     PlayerInfo();

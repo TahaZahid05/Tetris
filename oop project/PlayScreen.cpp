@@ -200,13 +200,7 @@ void PlayScreen::show(sf::RenderWindow& window) {
     T shapeT;
 
     std::vector<sf::RectangleShape> settledShapes;
-    sf::Vector2f velocity(0.0f, 0.05f);
-
-    if (level == 2) {
-        velocity.y = 0.35f;
-    } else if (level == 4) {
-        velocity.y = 0.50f;
-    } 
+    sf::Vector2f velocity(0.0f, 0.15f + (level - 1) * 0.15f); // Initial velocity based on level
 
     bool isPaused = false;
     sf::RectangleShape pauseButton(sf::Vector2f(100.f, 50.f));
@@ -401,7 +395,7 @@ void PlayScreen::show(sf::RenderWindow& window) {
             }
             else{
                 if(currentShape->getFrontRectY()->getPosition().y < 780 && !(currentShape->isColliding(settledShapes)))
-                    velocity.y = 0.15f + (level - 1) * 0.02f;
+                    velocity.y = 0.15f + (level - 1) * 0.15f; // Adjust velocity based on level
                 else{
                     if(currentShape->isColliding(settledShapes) && currentShape->getFrontRectY()->getPosition().y <= 10){
                         velocity.y = 0;
